@@ -7,7 +7,24 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700;1,900&family=Barlow:wght@300;400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
+<style>
+/* Extra keyframes that reference JS-triggered classes */
+@keyframes logoGlitch {
+  0%  { transform: translate(0,0);   color: var(--green) }
+  25% { transform: translate(-3px,0); color: var(--violet) }
+  50% { transform: translate(3px,0);  color: var(--green) }
+  75% { transform: translate(-2px,0); color: var(--white) }
+  100%{ transform: translate(0,0);   color: var(--green) }
+}
+/* Scroll progress bar */
+#scroll-bar {
+  position:fixed;top:56px;left:0;height:2px;width:0%;
+  background:linear-gradient(90deg,var(--green),var(--violet));
+  z-index:300;transition:width .05s linear;
+  box-shadow:0 0 8px rgba(0,255,136,.4);
+}
+</style>
 </head>
 <body>
 
