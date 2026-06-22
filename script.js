@@ -2,8 +2,6 @@
    APEX SIM RACING — main.js
 ═══════════════════════════════════════════ */
 
-document.documentElement.classList.replace('no-js', 'js');
-
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ── CUSTOM CURSOR ── */
@@ -73,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.fillStyle = `rgba(${p.c},${p.o})`;
         ctx.fill();
       });
+      // Draw connections
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
@@ -142,13 +141,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { threshold: 0.1 });
   revEls.forEach(el => io.observe(el));
 
-  /* Safety net: if something prevents the observer from firing
-     (unsupported browser, odd layout), make sure content isn't
-     stuck invisible forever. */
-  setTimeout(() => {
-    revEls.forEach(el => el.classList.add('visible'));
-  }, 4000);
-
   /* ── PARALLAX HERO HEADLINE ── */
   const headline = document.querySelector('.hero-headline');
   window.addEventListener('scroll', () => {
@@ -196,6 +188,9 @@ document.addEventListener('DOMContentLoaded', () => {
       card.style.transition = 'transform .5s ease';
     });
   });
+
+  /* ── NUMBER COUNTERS (hero) ── */
+  // Removed stats bar per request — counters kept for potential re-use
 
   /* ── SCROLL PROGRESS BAR ── */
   const bar = document.getElementById('scroll-bar');
@@ -250,22 +245,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 32);
   }
 
-  /* ── MOBILE NAV TOGGLE ── */
-  const burger = document.getElementById('nav-burger');
-  const navLinks = document.querySelector('.nav-links');
-  if (burger && navLinks) {
-    burger.addEventListener('click', () => {
-      const open = navLinks.classList.toggle('mobile-open');
-      burger.classList.toggle('active', open);
-      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
-    navLinks.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        navLinks.classList.remove('mobile-open');
-        burger.classList.remove('active');
-        burger.setAttribute('aria-expanded', 'false');
-      });
-    });
+  // Trigger scramble when CTA enters view
+  const ctaTitle = document.querySelector('.cta-main-text');
+  if (ctaTitle) {
+    let triggered = false;
+    const ctaIo = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && !triggered) {
+        triggered = true;
+        scramble(ctaTitle, 'EL TIEMPO', 900);
+      }
+    }, { threshold: .5 });
+    ctaIo.observe(ctaTitle);
   }
 
 });
