@@ -8,29 +8,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700;1,900&family=Barlow:wght@300;400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-<style>
-/* Extra keyframes that reference JS-triggered classes */
-@keyframes logoGlitch {
-  0%  { transform: translate(0,0);   color: var(--green) }
-  25% { transform: translate(-3px,0); color: var(--violet) }
-  50% { transform: translate(3px,0);  color: var(--green) }
-  75% { transform: translate(-2px,0); color: var(--white) }
-  100%{ transform: translate(0,0);   color: var(--green) }
-}
-/* Scroll progress bar */
-#scroll-bar {
-  position:fixed;top:56px;left:0;height:2px;width:0%;
-  background:linear-gradient(90deg,var(--green),var(--violet));
-  z-index:300;transition:width .05s linear;
-  box-shadow:0 0 8px rgba(0,255,136,.4);
-}
-</style>
 </head>
 <body>
-
-<!-- CURSOR -->
-<div id="cursor" aria-hidden="true"></div>
-<div id="cursor-ring" aria-hidden="true"></div>
 
 <!-- SCANLINES -->
 <div class="scanlines" aria-hidden="true"></div>
@@ -41,6 +20,7 @@
 <!-- ═══════ NAV ═══════ -->
 <nav>
   <div class="nav-logo">APEX<span class="dot">.</span></div>
+
   <ul class="nav-links">
     <li><a href="#experiencias">Experiencias</a></li>
     <li><a href="#programas">Programas</a></li>
@@ -48,10 +28,30 @@
     <li><a href="#academia">Academia</a></li>
     <li><a href="#cta">Contacto</a></li>
   </ul>
+
   <button class="nav-cta" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
     Inscribirme
   </button>
+
+  <!-- Hamburger (mobile only) -->
+  <button class="nav-hamburger" aria-label="Abrir menú" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 </nav>
+
+<!-- Mobile menu -->
+<div class="nav-mobile" role="navigation" aria-label="Menú móvil">
+  <a href="#experiencias">Experiencias</a>
+  <a href="#programas">Programas</a>
+  <a href="#tecnologia">Simuladores</a>
+  <a href="#academia">Academia</a>
+  <a href="#cta">Contacto</a>
+  <button class="nav-cta" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
+    Inscribirme
+  </button>
+</div>
 
 <!-- ═══════ HERO ═══════ -->
 <section id="hero">
@@ -170,27 +170,24 @@
 
   <div class="exp-circuits reveal d1">
     <div class="exp-circuit">
+      <div class="exp-circuit-img" style="background-image:url('')">[ IMAGEN — TRAZADA PERFECTA ]</div>
       <div class="exp-num">01</div>
-      <div>
-        <div class="exp-name">Trazada Perfecta</div>
-        <div class="exp-desc">Dominá la geometría de cada curva con telemetría en tiempo real. Aprendé el punto de entrada, el ápex y la salida como un piloto de fábrica.</div>
-      </div>
+      <div class="exp-name">Trazada Perfecta</div>
+      <div class="exp-desc">Dominá la geometría de cada curva con telemetría en tiempo real. Aprendé el punto de entrada, el ápex y la salida como un piloto de fábrica.</div>
       <div class="exp-tag">Técnica</div>
     </div>
     <div class="exp-circuit">
+      <div class="exp-circuit-img" style="background-image:url('')">[ IMAGEN — GESTIÓN DE NEUMÁTICOS ]</div>
       <div class="exp-num">02</div>
-      <div>
-        <div class="exp-name">Gestión de Neumáticos</div>
-        <div class="exp-desc">Aprendé a leer y administrar cada décima de desgaste como un profesional. La consistencia gana carreras.</div>
-      </div>
+      <div class="exp-name">Gestión de Neumáticos</div>
+      <div class="exp-desc">Aprendé a leer y administrar cada décima de desgaste como un profesional. La consistencia gana carreras.</div>
       <div class="exp-tag">Estrategia</div>
     </div>
     <div class="exp-circuit">
+      <div class="exp-circuit-img" style="background-image:url('')">[ IMAGEN — CARRERA BAJO PRESIÓN ]</div>
       <div class="exp-num">03</div>
-      <div>
-        <div class="exp-name">Carrera Bajo Presión</div>
-        <div class="exp-desc">Simulaciones de race-pace con adversarios y condiciones dinámicas. Mentalidad de campeón cuando más importa.</div>
-      </div>
+      <div class="exp-name">Carrera Bajo Presión</div>
+      <div class="exp-desc">Simulaciones de race-pace con adversarios y condiciones dinámicas. Mentalidad de campeón cuando más importa.</div>
       <div class="exp-tag">Competencia</div>
     </div>
   </div>
@@ -322,6 +319,16 @@
   </div>
 </section>
 
+<!-- ═══════ ESTRUCTURA DEL SIMULADOR ═══════ -->
+<section id="estructura">
+  <div class="struct-header">
+    <div class="eyebrow reveal" style="justify-content:center">Ingeniería</div>
+    <h2 class="sec-title reveal d1" style="text-align:center">ESTRUCTURA DEL<br>SIMULADOR</h2>
+    <p class="sec-sub reveal d2" style="margin:0 auto;text-align:center">Cada componente fue elegido por su precisión, no por su precio. Así está construido un puesto APEX, pieza por pieza.</p>
+  </div>
+  <div class="struct-img reveal d2">[ IMAGEN GRANDE — DESPIECE / ESTRUCTURA COMPLETA DEL SIMULADOR ]</div>
+</section>
+
 <!-- ═══════ ACADEMIA F3 ═══════ -->
 <section id="academia">
   <div class="academy-inner">
@@ -364,57 +371,6 @@
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ═══════ PILOTOS / TESTIMONIOS ═══════ -->
-<section id="pilotos">
-  <div>
-    <div class="eyebrow reveal">Pilotos APEX</div>
-    <h2 class="sec-title reveal d1">LO QUE<br>DICEN</h2>
-  </div>
-
-  <div class="testi-grid">
-    <div class="testi-card reveal">
-      <div class="testi-prog">PROGRAMA PRO</div>
-      <p class="testi-q">Vine sin saber leer una curva de telemetría. Tres meses después bajé 1.8 segundos por vuelta. APEX cambió la forma en que veo una pista.</p>
-      <div class="testi-author">
-        <div class="testi-av">MR</div>
-        <div>
-          <div class="testi-name">Mateo Rodríguez</div>
-          <div class="testi-role">Piloto · Buenos Aires</div>
-        </div>
-      </div>
-    </div>
-    <div class="testi-card reveal d1">
-      <div class="testi-prog">PROGRAMA ELITE</div>
-      <p class="testi-q">El análisis comparativo con datos de F1 reales me abrió la cabeza. Ahora entiendo qué hace la diferencia en cada sector. El método APEX es otro nivel.</p>
-      <div class="testi-author">
-        <div class="testi-av">SV</div>
-        <div>
-          <div class="testi-name">Sofía Vega</div>
-          <div class="testi-role">Piloto · Córdoba</div>
-        </div>
-      </div>
-    </div>
-    <div class="testi-card reveal d2">
-      <div class="testi-prog">PROGRAMA ENTRY</div>
-      <p class="testi-q">Empecé con el Entry y ya estoy en PRO. La plataforma de 6 ejes no tiene comparación — cuando subí a un auto real, todo me resultó familiar.</p>
-      <div class="testi-author">
-        <div class="testi-av">LP</div>
-        <div>
-          <div class="testi-name">Lucas Peralta</div>
-          <div class="testi-role">Piloto · Rosario</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="pilots-strip reveal d2">
-    <div class="pilot-ph">[ FOTO PILOTO 1 ]</div>
-    <div class="pilot-ph">[ FOTO PILOTO 2 ]</div>
-    <div class="pilot-ph">[ FOTO PILOTO 3 ]</div>
-    <div class="pilot-ph">[ FOTO SESIÓN ]</div>
   </div>
 </section>
 
