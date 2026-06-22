@@ -189,9 +189,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* ── NUMBER COUNTERS (hero) ── */
-  // Removed stats bar per request — counters kept for potential re-use
-
   /* ── SCROLL PROGRESS BAR ── */
   const bar = document.getElementById('scroll-bar');
   if (bar) {
