@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="no-js">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700;1,900&family=Barlow:wght@300;400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
+/* Extra keyframes that reference JS-triggered classes */
 @keyframes logoGlitch {
   0%  { transform: translate(0,0);   color: var(--green) }
   25% { transform: translate(-3px,0); color: var(--violet) }
@@ -16,6 +17,7 @@
   75% { transform: translate(-2px,0); color: var(--white) }
   100%{ transform: translate(0,0);   color: var(--green) }
 }
+/* Scroll progress bar */
 #scroll-bar {
   position:fixed;top:56px;left:0;height:2px;width:0%;
   background:linear-gradient(90deg,var(--green),var(--violet));
@@ -25,11 +27,18 @@
 </style>
 </head>
 <body>
+
+<!-- CURSOR -->
 <div id="cursor" aria-hidden="true"></div>
 <div id="cursor-ring" aria-hidden="true"></div>
+
+<!-- SCANLINES -->
 <div class="scanlines" aria-hidden="true"></div>
+
+<!-- SCROLL PROGRESS -->
 <div id="scroll-bar" aria-hidden="true"></div>
 
+<!-- ═══════ NAV ═══════ -->
 <nav>
   <div class="nav-logo">APEX<span class="dot">.</span></div>
   <ul class="nav-links">
@@ -42,13 +51,14 @@
   <button class="nav-cta" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
     Inscribirme
   </button>
-  <button class="nav-burger" id="nav-burger" aria-label="Abrir menú" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
 </nav>
 
+<!-- ═══════ HERO ═══════ -->
 <section id="hero">
+  <!-- Particle canvas -->
   <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+  <!-- Telemetry bar -->
   <div class="hero-telemetry-bar" aria-hidden="true">
     <div class="tel-item"><span class="lbl">Status</span><span class="tel-dot"></span>LIVE SESSION</div>
     <div class="tel-item"><span class="lbl">RPM</span><span id="tel-rpm">10,842</span></div>
@@ -59,22 +69,27 @@
   </div>
 
   <div class="hero-grid">
+    <!-- LEFT -->
     <div class="hero-left">
       <div class="hero-tag">Sim Racing Profesional</div>
+
       <h1 class="hero-headline">
         <span class="hl-white">CORRÉ</span><br>
         <span class="hl-outline">PARA</span><br>
         <span class="hl-green">GANAR</span>
       </h1>
+
       <p class="hero-body">
         APEX no es un juego. Es el <strong>sistema de entrenamiento de sim racing más avanzado de Latinoamérica</strong>. Tecnología de pilotos reales. Metodología de élite. Resultados que se miden en el asfalto.
       </p>
+
       <div class="hero-actions">
         <a href="#programas" class="btn-primary">Ver Programas</a>
         <a href="#experiencias" class="btn-ghost"><span class="play">▶</span> Ver en Acción</a>
       </div>
     </div>
 
+    <!-- RIGHT -->
     <div class="hero-right">
       <div class="hero-img-frame">
         <div class="hero-img-placeholder">
@@ -82,6 +97,7 @@
           <div class="cbracket tr"></div>
           <div class="cbracket bl"></div>
           <div class="cbracket br"></div>
+
           <div class="hdo">
             <div class="hdo-row">
               <span>PILOT CAM</span>
@@ -102,6 +118,8 @@
               <span class="hdo-val">0%</span>
             </div>
           </div>
+
+          <!-- Circuit SVG decorative -->
           <svg width="140" height="100" viewBox="0 0 140 100" fill="none"
                aria-hidden="true"
                style="position:relative;z-index:1;opacity:.2;margin-top:3rem">
@@ -117,6 +135,7 @@
   </div>
 </section>
 
+<!-- ═══════ TICKER ═══════ -->
 <div class="ticker-wrapper" aria-hidden="true">
   <div class="ticker-inner">
     <div class="ticker-item"><span class="dot">●</span>SIM RACING PROFESIONAL</div>
@@ -126,6 +145,7 @@
     <div class="ticker-item"><span class="dot">●</span>LATINOAMÉRICA</div>
     <div class="ticker-item"><span class="vdot">●</span>ACADEMY 2027 · F3 PIPELINE</div>
     <div class="ticker-item"><span class="dot">●</span>APEX · CORRÉ PARA GANAR</div>
+    <!-- Duplicate for seamless loop -->
     <div class="ticker-item"><span class="dot">●</span>SIM RACING PROFESIONAL</div>
     <div class="ticker-item"><span class="vdot">●</span>FIA CERTIFIED TRAINING</div>
     <div class="ticker-item"><span class="dot">●</span>TECNOLOGÍA DE FÁBRICA</div>
@@ -136,6 +156,7 @@
   </div>
 </div>
 
+<!-- ═══════ EXPERIENCIAS ═══════ -->
 <section id="experiencias">
   <div class="exp-header">
     <div>
@@ -148,19 +169,19 @@
   </div>
 
   <div class="exp-circuits reveal d1">
-    <div class="exp-circuit">
+    <div class="exp-circuit" style="background-image:url('');">
       <div class="exp-num">01</div>
       <div class="exp-name">Trazada Perfecta</div>
       <div class="exp-desc">Dominá la geometría de cada curva con telemetría en tiempo real. Aprendé el punto de entrada, el ápex y la salida como un piloto de fábrica.</div>
       <div class="exp-tag">Técnica</div>
     </div>
-    <div class="exp-circuit">
+    <div class="exp-circuit" style="background-image:url('');">
       <div class="exp-num">02</div>
       <div class="exp-name">Gestión de Neumáticos</div>
       <div class="exp-desc">Aprendé a leer y administrar cada décima de desgaste como un profesional. La consistencia gana carreras.</div>
       <div class="exp-tag">Estrategia</div>
     </div>
-    <div class="exp-circuit">
+    <div class="exp-circuit" style="background-image:url('');">
       <div class="exp-num">03</div>
       <div class="exp-name">Carrera Bajo Presión</div>
       <div class="exp-desc">Simulaciones de race-pace con adversarios y condiciones dinámicas. Mentalidad de campeón cuando más importa.</div>
@@ -174,6 +195,7 @@
   </div>
 </section>
 
+<!-- ═══════ PROGRAMAS ═══════ -->
 <section id="programas">
   <div class="prog-header">
     <div>
@@ -184,6 +206,8 @@
   </div>
 
   <div class="prog-cards">
+
+    <!-- ENTRY -->
     <div class="prog-card reveal">
       <div class="prog-glow"></div>
       <span class="prog-badge b-default">NIVEL 01</span>
@@ -201,6 +225,7 @@
       <a href="#cta" class="prog-cta">Comenzar →</a>
     </div>
 
+    <!-- PRO -->
     <div class="prog-card featured reveal d1">
       <div class="prog-glow"></div>
       <span class="prog-badge b-featured">NIVEL 02 · MÁS POPULAR</span>
@@ -218,6 +243,7 @@
       <a href="#cta" class="prog-cta cta-featured">Comenzar →</a>
     </div>
 
+    <!-- ELITE -->
     <div class="prog-card elite-card reveal d2">
       <div class="prog-glow"></div>
       <span class="prog-badge b-elite">NIVEL 03 · ELITE</span>
@@ -234,9 +260,11 @@
       <div class="prog-period">/ mes</div>
       <a href="#cta" class="prog-cta cta-elite">Comenzar →</a>
     </div>
+
   </div>
 </section>
 
+<!-- ═══════ TECNOLOGIA ═══════ -->
 <section id="tecnologia">
   <div class="tech-header">
     <div class="eyebrow reveal" style="justify-content:center">Tecnología</div>
@@ -288,6 +316,7 @@
   </div>
 </section>
 
+<!-- ═══════ ESTRUCTURA DEL SIMULADOR ═══════ -->
 <section id="estructura">
   <div class="struct-header">
     <div class="eyebrow reveal" style="justify-content:center">Ingeniería</div>
@@ -299,6 +328,7 @@
   </div>
 </section>
 
+<!-- ═══════ ACADEMIA F3 ═══════ -->
 <section id="academia">
   <div class="academy-inner">
     <div class="academy-left">
@@ -343,23 +373,30 @@
   </div>
 </section>
 
+<!-- ═══════ CTA ═══════ -->
 <section id="cta">
   <div class="cta-bg-text" aria-hidden="true">APEX</div>
+
   <span class="cta-tag reveal">Dar el Paso</span>
+
   <h2 class="cta-title reveal d1">
     <span class="t-outline"><span class="cta-main-text">EL TIEMPO</span></span><br>
     ES <span class="t-green">AHORA</span>
   </h2>
+
   <p class="cta-sub reveal d2">
     Cada vuelta que no entrenás es una vuelta que otro aprovecha. APEX tiene cupos limitados por diseño. Así garantizamos la atención que merecés.
   </p>
+
   <div class="cta-actions reveal d3">
     <a href="mailto:info@apexsimracing.com" class="btn-primary">Reservar Mi Lugar</a>
     <a href="#programas" class="btn-ghost"><span class="play">▶</span> Ver Programas</a>
   </div>
+
   <p class="cta-note reveal d4">Cupos limitados · Respuesta en menos de 24 hs</p>
 </section>
 
+<!-- ═══════ FOOTER ═══════ -->
 <footer>
   <div class="footer-logo">APEX.</div>
   <p class="footer-copy">© 2026 APEX Sim Racing — Latinoamérica</p>
