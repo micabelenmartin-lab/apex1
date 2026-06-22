@@ -38,6 +38,17 @@ img{max-width:100%;height:auto;display:block}
 ::-webkit-scrollbar-track{background:var(--dark)}
 ::-webkit-scrollbar-thumb{background:var(--green)}
 
+/* ── CURSOR ── */
+/* BUG FIX: #cursor no tenía estilos. El JS lo mueve con left/top
+   pero sin position:fixed y sin dimensiones era invisible. */
+#cursor{
+  position:fixed;width:6px;height:6px;border-radius:50%;
+  background:var(--green);z-index:9999;pointer-events:none;
+  transform:translate(-50%,-50%);
+  box-shadow:0 0 8px rgba(0,255,136,.8);
+  transition:opacity .2s;
+}
+
 /* ── CURSOR RING ── */
 #cursor-ring{
   position:fixed;width:32px;height:32px;border-radius:50%;
@@ -63,7 +74,9 @@ body:has(button:hover) #cursor-ring{
   );
 }
 
-/* ── SCROLL PROGRESS ── */
+/* ── SCROLL PROGRESS ──
+   BUG FIX: estaba duplicado en <style> inline del HTML y acá.
+   Se eliminó el bloque inline del HTML y se deja sólo este. */
 #scroll-bar{
   position:fixed;top:56px;left:0;height:2px;width:0%;
   background:linear-gradient(90deg,var(--green),var(--violet));
@@ -152,6 +165,11 @@ nav{
   display:grid;grid-template-columns:1fr 1fr;
   flex:1;padding-top:90px;align-items:center;gap:4rem;
   position:relative;z-index:1;
+}
+/* BUG FIX: .hero-left no tenía estilos — se agrega para que el contenido
+   del lado izquierdo del grid se comporte correctamente. */
+.hero-left{
+  display:flex;flex-direction:column;justify-content:center;
 }
 .hero-tag{
   font-family:var(--ff-mono);font-size:.62rem;letter-spacing:.22em;
@@ -350,6 +368,19 @@ section{padding:7rem 3rem}
 }
 .exp-circuit:hover .exp-tag{border-color:var(--violet);color:var(--violet);box-shadow:0 0 8px rgba(191,95,255,.2)}
 
+/* BUG FIX: .media-strip y .media-ph no tenían estilos en el CSS original,
+   haciendo que la tira de fotos bajo Experiencias fuera invisible/sin formato. */
+.media-strip{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:1px;
+  background:#111;margin-top:1px;
+}
+.media-ph{
+  aspect-ratio:16/6;background:var(--dark);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-mono);font-size:.6rem;color:#222;letter-spacing:.08em;
+  border:1px solid #141414;
+}
+
 /* ══════════════════════════════
    PROGRAMAS
 ══════════════════════════════ */
@@ -434,56 +465,15 @@ section{padding:7rem 3rem}
 .tech-ph-sm{flex:1;background:var(--dark);border:1px solid #141414;display:flex;align-items:center;justify-content:center;font-family:var(--ff-mono);font-size:.5rem;color:#1e1e1e;text-align:center;padding:.5rem}
 
 /* ══════════════════════════════
-   ESTRUCTURA DEL SIMULADOR
-══════════════════════════════ */
-#estructura{background:var(--dark);border-top:1px solid #111;padding:7rem 3rem}
-.struct-inner{max-width:1100px;margin:0 auto}
-.struct-header{text-align:center;margin-bottom:3.5rem}
-.struct-header .sec-sub{margin:0 auto;text-align:center}
-.struct-img-wrap{
-  width:100%;position:relative;
-  border:1px solid rgba(0,255,136,.12);
-  overflow:hidden;
-}
-/* Corners */
-.struct-img-wrap::before,
-.struct-img-wrap::after{
-  content:'';position:absolute;z-index:2;pointer-events:none;
-  width:24px;height:24px;
-}
-.struct-img-wrap::before{top:0;left:0;border-top:2px solid var(--green);border-left:2px solid var(--green)}
-.struct-img-wrap::after{bottom:0;right:0;border-bottom:2px solid var(--violet);border-right:2px solid var(--violet)}
-.struct-corner-tr{position:absolute;top:0;right:0;width:24px;height:24px;border-top:2px solid var(--green);border-right:2px solid var(--green);z-index:2;pointer-events:none}
-.struct-corner-bl{position:absolute;bottom:0;left:0;width:24px;height:24px;border-bottom:2px solid var(--violet);border-left:2px solid var(--violet);z-index:2;pointer-events:none}
-.struct-img{
-  width:100%;aspect-ratio:16/7;
-  background:#0d0d0d;
-  background-size:cover;background-position:center;
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--ff-mono);font-size:.65rem;color:var(--muted);
-  letter-spacing:.1em;text-align:center;line-height:2;
-  position:relative;overflow:hidden;
-}
-.struct-img::before{
-  content:'';position:absolute;inset:0;
-  background:repeating-linear-gradient(0deg,transparent,transparent 48px,rgba(0,255,136,.02) 48px,rgba(0,255,136,.02) 49px);
-}
-.struct-label{
-  position:absolute;bottom:0;left:0;right:0;
-  display:flex;justify-content:space-between;align-items:center;
-  padding:.8rem 1.5rem;
-  background:rgba(5,5,5,.8);backdrop-filter:blur(8px);
-  border-top:1px solid rgba(0,255,136,.08);
-  font-family:var(--ff-mono);font-size:.55rem;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--muted);z-index:2;
-}
-.struct-label .sl-tag{color:var(--green)}
-
-/* ══════════════════════════════
    ACADEMIA
 ══════════════════════════════ */
 #academia{background:var(--black);border-top:1px solid #111}
 .academy-inner{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+/* BUG FIX: .academy-left no tenía estilos, el contenido izquierdo de la
+   academia no tenía ningún layout definido. */
+.academy-left{
+  display:flex;flex-direction:column;
+}
 .year-badge{
   display:inline-flex;align-items:center;gap:.8rem;
   border:1px solid rgba(191,95,255,.35);padding:.5rem 1.2rem;
@@ -513,6 +503,55 @@ section{padding:7rem 3rem}
 .p-final .p-title{color:var(--green)}
 
 /* ══════════════════════════════
+   TESTIMONIOS / PILOTOS
+   BUG FIX: toda esta sección carecía de estilos en el CSS original.
+   Los elementos existían en el HTML pero eran completamente invisibles
+   o sin formato alguno.
+══════════════════════════════ */
+#pilotos{background:var(--dark);border-top:1px solid #111}
+.testi-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:#111;margin-top:4rem;margin-bottom:1px;
+}
+.testi-card{
+  background:var(--black);padding:2.5rem 2rem;
+  position:relative;overflow:hidden;
+  border-top:2px solid transparent;
+  transition:border-color .3s,background .3s;
+}
+.testi-card:hover{background:#060606;border-top-color:var(--green)}
+.testi-prog{
+  font-family:var(--ff-mono);font-size:.5rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--green);margin-bottom:1.5rem;
+}
+.testi-q{
+  font-size:.85rem;color:#888;font-weight:300;line-height:1.8;
+  margin-bottom:2rem;font-style:italic;
+}
+.testi-q::before{content:'"';font-family:var(--ff-display);font-size:3rem;color:#1a1a1a;line-height:0;vertical-align:-.6rem;margin-right:.3rem}
+.testi-author{display:flex;align-items:center;gap:1rem}
+.testi-av{
+  width:36px;height:36px;border-radius:50%;flex-shrink:0;
+  background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-mono);font-size:.55rem;color:var(--green);
+}
+.testi-name{font-family:var(--ff-display);font-weight:700;font-size:.85rem;letter-spacing:.04em;text-transform:uppercase}
+.testi-role{font-family:var(--ff-mono);font-size:.5rem;color:var(--muted);letter-spacing:.1em;margin-top:.2rem}
+
+/* BUG FIX: .pilots-strip y .pilot-ph no tenían estilos en el CSS original. */
+.pilots-strip{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:#111;margin-top:1px;
+}
+.pilot-ph{
+  aspect-ratio:3/4;background:var(--dark);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-mono);font-size:.5rem;color:#1e1e1e;
+  text-align:center;border:1px solid #141414;
+}
+
+/* ══════════════════════════════
    CTA
 ══════════════════════════════ */
 #cta{
@@ -531,6 +570,7 @@ section{padding:7rem 3rem}
   font-size:clamp(3.2rem,6.5vw,7rem);line-height:.88;
   text-transform:uppercase;letter-spacing:-.02em;margin-bottom:1.5rem;
 }
+.cta-main-text{display:inline-block}
 .cta-sub{font-size:.9rem;color:#555;max-width:460px;margin:0 auto 3rem;font-weight:300;line-height:1.85}
 .cta-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
 .cta-note{margin-top:2rem;font-family:var(--ff-mono);font-size:.58rem;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
@@ -562,6 +602,8 @@ footer{
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeRight{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+/* BUG FIX: @keyframes logoGlitch estaba duplicado (en <style> inline del HTML
+   y acá). Se eliminó el bloque inline y se deja sólo este. */
 @keyframes logoGlitch{
   0%  {transform:translate(0,0);  color:var(--green)}
   25% {transform:translate(-3px,0);color:var(--violet)}
@@ -585,6 +627,7 @@ footer{
   .exp-header{grid-template-columns:1fr;gap:1.5rem}
   .prog-header{grid-template-columns:1fr;gap:1.5rem}
   .academy-inner{gap:3.5rem}
+  .testi-grid{grid-template-columns:1fr}
 }
 
 /* Mobile — 768px */
@@ -618,6 +661,8 @@ footer{
   .exp-circuit{min-height:400px}
   .exp-circuit-img{flex:0 0 55%}
 
+  .media-strip{grid-template-columns:1fr}
+
   .prog-header{grid-template-columns:1fr;gap:1.5rem}
   .prog-cards{grid-template-columns:1fr}
   .prog-card{padding:2rem 1.5rem}
@@ -628,11 +673,11 @@ footer{
   .tech-media{grid-template-columns:1fr}
   .tech-ph-col{flex-direction:row}
 
-  .struct-img{aspect-ratio:4/3}
-  .struct-label{flex-direction:column;gap:.3rem;text-align:center}
-
   .academy-inner{grid-template-columns:1fr;gap:2.5rem}
   .pipeline-box{padding:1.8rem}
+
+  .testi-grid{grid-template-columns:1fr}
+  .pilots-strip{grid-template-columns:repeat(2,1fr)}
 
   .cta-title{font-size:clamp(2.8rem,12vw,4.5rem)}
   .cta-sub{font-size:.85rem}
@@ -646,7 +691,8 @@ footer{
   .hero-headline{font-size:clamp(3.2rem,16vw,4.5rem)}
   .exp-circuits{grid-template-columns:1fr}
   .prog-cards{grid-template-columns:1fr}
-  #cursor-ring{display:none}
+  #cursor,#cursor-ring{display:none}
   .hero-actions{flex-direction:column;align-items:flex-start}
   .btn-primary,.btn-ghost{width:100%;text-align:center;justify-content:center}
+  .pilots-strip{grid-template-columns:repeat(2,1fr)}
 }
