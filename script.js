@@ -4,24 +4,33 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ── HAMBURGER MENU ── */
-  const hamburger = document.querySelector('.nav-hamburger');
-  const mobileMenu = document.querySelector('.nav-mobile');
+  /* ── CUSTOM CURSOR ── */
+  const cursor = document.getElementById('cursor');
+  const ring   = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
 
-  if (hamburger && mobileMenu) {
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('open');
-      mobileMenu.classList.toggle('open');
-    });
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top  = my + 'px';
+  });
 
-    // Close menu when a link is clicked
-    mobileMenu.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        hamburger.classList.remove('open');
-        mobileMenu.classList.remove('open');
-      });
-    });
-  }
+  (function loopRing() {
+    rx += (mx - rx) * 0.1;
+    ry += (my - ry) * 0.1;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(loopRing);
+  })();
+
+  document.addEventListener('mouseleave', () => {
+    cursor.style.opacity = '0';
+    ring.style.opacity   = '0';
+  });
+  document.addEventListener('mouseenter', () => {
+    cursor.style.opacity = '1';
+    ring.style.opacity   = '1';
+  });
 
   /* ── PARTICLE CANVAS ── */
   const canvas = document.getElementById('particle-canvas');
@@ -179,6 +188,9 @@ document.addEventListener('DOMContentLoaded', () => {
       card.style.transition = 'transform .5s ease';
     });
   });
+
+  /* ── NUMBER COUNTERS (hero) ── */
+  // Removed stats bar per request — counters kept for potential re-use
 
   /* ── SCROLL PROGRESS BAR ── */
   const bar = document.getElementById('scroll-bar');
