@@ -1,745 +1,455 @@
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   APEX SIM RACING â€” style.css
-   Paleta: Negro Â· Verde NeÃ³n Â· Violeta NeÃ³n
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APEX — Sim Racing Profesional</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700;1,900&family=Barlow:wght@300;400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+<!-- CURSOR -->
+<div id="cursor" aria-hidden="true"></div>
+<div id="cursor-ring" aria-hidden="true"></div>
 
-:root{
-  --black:    #050505;
-  --dark:     #0a0a0a;
-  --surface:  #0f0f0f;
-  --surface2: #141414;
-  --green:    #00ff88;
-  --green-dim:#00cc6a;
-  --green-glow:rgba(0,255,136,.18);
-  --violet:   #bf5fff;
-  --violet-dim:#8b2fc9;
-  --violet-glow:rgba(191,95,255,.18);
-  --white:    #f2f2f2;
-  --muted:    #4a4a4a;
-  --muted2:   #282828;
-  --ff-display:'Barlow Condensed',sans-serif;
-  --ff-body:  'Barlow',sans-serif;
-  --ff-mono:  'Share Tech Mono',monospace;
-}
+<!-- SCANLINES -->
+<div class="scanlines" aria-hidden="true"></div>
 
-/* â”€â”€ BASE â”€â”€ */
-html{scroll-behavior:smooth;overflow-x:hidden}
-body{
-  background:var(--black);color:var(--white);
-  font-family:var(--ff-body);font-size:16px;line-height:1.6;
-  overflow-x:hidden;
-}
-a{color:inherit;text-decoration:none}
-button{cursor:pointer}
-img{max-width:100%;height:auto;display:block}
-::-webkit-scrollbar{width:2px}
-::-webkit-scrollbar-track{background:var(--dark)}
-::-webkit-scrollbar-thumb{background:var(--green)}
+<!-- SCROLL PROGRESS -->
+<div id="scroll-bar" aria-hidden="true"></div>
 
-/* â”€â”€ CURSOR â”€â”€ */
-/* BUG FIX: #cursor no tenÃ­a estilos. El JS lo mueve con left/top
-   pero sin position:fixed y sin dimensiones era invisible. */
-#cursor,
-#cursor-ring{
-  display:none !important;
-}
+<!-- ═══════ NAV ═══════ -->
+<nav>
+  <div class="nav-logo">APEX<span class="dot">.</span></div>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#experiencias">Experiencias</a></li>
+    <li><a href="#programas">Programas</a></li>
+    <li><a href="#tecnologia">Simuladores</a></li>
+    <li><a href="#academia">Academia</a></li>
+    <li><a href="#cta">Contacto</a></li>
+  </ul>
+  <!-- BUG FIX: botón hamburguesa agregado — faltaba en el HTML original -->
+  <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menú" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  <button class="nav-cta" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
+    Inscribirme
+  </button>
+</nav>
 
-body{
-  cursor:auto;
-}
-body:has(a:hover) #cursor-ring,
-body:has(button:hover) #cursor-ring{
-  width:50px;height:50px;
-  border-color:rgba(191,95,255,.7);
-  box-shadow:0 0 18px rgba(191,95,255,.3);
-}
+<!-- ═══════ HERO ═══════ -->
+<section id="hero">
+  <!-- Particle canvas -->
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
 
-/* â”€â”€ SCANLINES â”€â”€ */
-.scanlines{
-  position:fixed;inset:0;pointer-events:none;z-index:9997;
-  background:repeating-linear-gradient(
-    0deg,rgba(0,0,0,.06) 0px,rgba(0,0,0,.06) 1px,
-    transparent 1px,transparent 3px
-  );
-}
+  <!-- Telemetry bar -->
+  <div class="hero-telemetry-bar" aria-hidden="true">
+    <div class="tel-item"><span class="lbl">Status</span><span class="tel-dot"></span>LIVE SESSION</div>
+    <div class="tel-item"><span class="lbl">RPM</span><span id="tel-rpm">10,842</span></div>
+    <div class="tel-item"><span class="lbl">Sector</span>S2 · OPTIMAL</div>
+    <div class="tel-item"><span class="lbl">DRS</span><span style="color:var(--green)">ACTIVE</span></div>
+    <div class="tel-item"><span class="lbl">Fuel</span>84.2%</div>
+    <div class="tel-item"><span class="lbl">Gap</span>-0.342s</div>
+  </div>
 
-/* â”€â”€ SCROLL PROGRESS â”€â”€
-   BUG FIX: estaba duplicado en <style> inline del HTML y acÃ¡.
-   Se eliminÃ³ el bloque inline del HTML y se deja sÃ³lo este. */
-#scroll-bar{
-  position:fixed;top:56px;left:0;height:2px;width:0%;
-  background:linear-gradient(90deg,var(--green),var(--violet));
-  z-index:300;transition:width .05s linear;
-  box-shadow:0 0 8px rgba(0,255,136,.4);
-}
+  <div class="hero-grid">
+    <!-- LEFT -->
+    <div class="hero-left">
+      <div class="hero-tag">Sim Racing Profesional</div>
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   NAV
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:200;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 3rem;height:56px;
-  background:rgba(5,5,5,.9);
-  backdrop-filter:blur(16px);
-  border-bottom:1px solid rgba(0,255,136,.08);
-}
-.nav-logo{
-  font-family:var(--ff-display);font-weight:900;font-size:1.7rem;
-  letter-spacing:.06em;color:var(--green);
-  display:flex;align-items:center;gap:2px;
-  text-shadow:0 0 20px rgba(0,255,136,.5);
-}
-.nav-logo .dot{color:var(--violet);text-shadow:0 0 20px rgba(191,95,255,.5)}
-.nav-links{display:flex;gap:2.5rem;list-style:none}
-.nav-links a{
-  font-family:var(--ff-display);font-size:.72rem;font-weight:600;
-  letter-spacing:.2em;text-transform:uppercase;color:var(--muted);
-  transition:color .2s;position:relative;
-}
-.nav-links a::after{
-  content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;
-  background:var(--green);transition:width .3s ease;
-}
-.nav-links a:hover{color:var(--white)}
-.nav-links a:hover::after{width:100%}
-.nav-cta{
-  font-family:var(--ff-display);font-size:.68rem;font-weight:700;
-  letter-spacing:.2em;text-transform:uppercase;
-  background:transparent;color:var(--green);
-  padding:.45rem 1.5rem;border:1px solid var(--green);
-  transition:all .25s;
-  clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
-  box-shadow:0 0 12px rgba(0,255,136,.15);
-}
-.nav-cta:hover{
-  background:var(--green);color:var(--black);
-  box-shadow:0 0 28px rgba(0,255,136,.4);
-}
-/* â”€â”€ Mobile Nav Toggle â”€â”€ */
-.nav-toggle{
-  display:none;flex-direction:column;gap:5px;
-  background:none;border:none;padding:4px;
-}
-.nav-toggle span{
-  width:22px;height:2px;background:var(--green);
-  display:block;transition:all .3s;
-}
-.nav-toggle.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
-.nav-toggle.open span:nth-child(2){opacity:0}
-.nav-toggle.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+      <h1 class="hero-headline">
+        <span class="hl-white">CORRÉ</span><br>
+        <span class="hl-outline">PARA</span><br>
+        <span class="hl-green">GANAR</span>
+      </h1>
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   HERO
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
-#hero{
-  min-height:100vh;display:flex;flex-direction:column;
-  padding:56px 3rem 0;position:relative;overflow:hidden;
-}
-.hero-telemetry-bar{
-  position:absolute;top:56px;left:0;right:0;height:30px;
-  background:rgba(0,255,136,.04);
-  border-bottom:1px solid rgba(0,255,136,.1);
-  display:flex;align-items:center;padding:0 3rem;gap:2.5rem;overflow:hidden;
-}
-.tel-item{
-  font-family:var(--ff-mono);font-size:.58rem;
-  color:var(--green-dim);white-space:nowrap;
-  display:flex;align-items:center;gap:.5rem;
-}
-.tel-item .lbl{color:var(--muted);font-size:.5rem;letter-spacing:.12em;text-transform:uppercase}
-.tel-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 1.2s infinite;display:inline-block}
-@keyframes blink{0%,100%{opacity:1;box-shadow:0 0 6px var(--green)}50%{opacity:.2;box-shadow:none}}
-.hero-grid{
-  display:grid;grid-template-columns:1fr 1fr;
-  flex:1;padding-top:90px;align-items:center;gap:4rem;
-  position:relative;z-index:1;
-}
-/* BUG FIX: .hero-left no tenÃ­a estilos â€” se agrega para que el contenido
-   del lado izquierdo del grid se comporte correctamente. */
-.hero-left{
-  display:flex;flex-direction:column;justify-content:center;
-}
-.hero-tag{
-  font-family:var(--ff-mono);font-size:.62rem;letter-spacing:.22em;
-  text-transform:uppercase;color:var(--green);
-  display:flex;align-items:center;gap:.8rem;margin-bottom:2rem;
-  opacity:0;animation:fadeUp .6s .2s forwards;
-}
-.hero-tag::before{content:'';width:28px;height:1px;background:var(--green);flex-shrink:0}
-.hero-headline{
-  font-family:var(--ff-display);font-weight:900;font-style:italic;
-  font-size:clamp(4rem,7.5vw,8rem);line-height:.88;
-  letter-spacing:-.02em;text-transform:uppercase;
-  margin-bottom:2rem;
-  opacity:0;animation:fadeUp .7s .35s forwards;
-  position:relative;z-index:1;
-}
-.hl-white{color:var(--white)}
-.hl-outline{-webkit-text-stroke:1.5px var(--white);color:transparent}
-.hl-green{
-  color:var(--green);text-shadow:0 0 40px rgba(0,255,136,.4);
-  display:inline-block;animation:glitch 6s 2s infinite;
-}
-@keyframes glitch{
-  0%,94%,100%{clip-path:none;transform:none;text-shadow:0 0 40px rgba(0,255,136,.4)}
-  95%{clip-path:polygon(0 20%,100% 20%,100% 50%,0 50%);transform:translate(-4px,0);text-shadow:-4px 0 var(--violet),4px 0 var(--green)}
-  96%{clip-path:polygon(0 60%,100% 60%,100% 80%,0 80%);transform:translate(4px,0);text-shadow:4px 0 var(--violet),-4px 0 var(--green)}
-  97%{clip-path:polygon(0 0%,100% 0%,100% 30%,0 30%);transform:translate(-2px,2px);text-shadow:-2px 0 var(--violet)}
-  98%{clip-path:none;transform:translate(0,0)}
-}
-.hero-body{
-  font-size:.95rem;color:#707070;line-height:1.8;
-  max-width:440px;margin-bottom:2.5rem;font-weight:300;
-  opacity:0;animation:fadeUp .7s .5s forwards;position:relative;z-index:1;
-}
-.hero-body strong{color:var(--white);font-weight:500}
-.hero-actions{
-  display:flex;gap:1rem;align-items:center;flex-wrap:wrap;
-  opacity:0;animation:fadeUp .7s .65s forwards;position:relative;z-index:1;
-}
+      <p class="hero-body">
+        APEX no es un juego. Es el <strong>sistema de entrenamiento de sim racing más avanzado de Latinoamérica</strong>. Tecnología de pilotos reales. Metodología de élite. Resultados que se miden en el asfalto.
+      </p>
 
-/* â”€â”€ Buttons â”€â”€ */
-.btn-primary{
-  font-family:var(--ff-display);font-size:.75rem;font-weight:700;
-  letter-spacing:.18em;text-transform:uppercase;
-  background:var(--green);color:var(--black);
-  padding:.75rem 2.2rem;display:inline-block;
-  clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);
-  transition:all .25s;box-shadow:0 0 20px rgba(0,255,136,.25);
-}
-.btn-primary:hover{background:#1affa0;box-shadow:0 0 40px rgba(0,255,136,.5);transform:translateX(3px)}
-.btn-ghost{
-  font-family:var(--ff-display);font-size:.75rem;font-weight:600;
-  letter-spacing:.18em;text-transform:uppercase;
-  background:transparent;color:var(--white);
-  padding:.7rem 2rem;border:1px solid #252525;
-  display:inline-flex;align-items:center;gap:.5rem;transition:all .25s;
-}
-.btn-ghost:hover{border-color:var(--violet);color:var(--violet);box-shadow:0 0 20px rgba(191,95,255,.2)}
-.btn-ghost .play{color:var(--green);font-size:.55rem}
+      <div class="hero-actions">
+        <a href="#programas" class="btn-primary">Ver Programas</a>
+        <a href="#experiencias" class="btn-ghost"><span class="play">▶</span> Ver en Acción</a>
+      </div>
+    </div>
 
-/* â”€â”€ Hero right panel â”€â”€ */
-.hero-right{position:relative;display:flex;justify-content:center;align-items:center}
-.hero-img-frame{
-  width:100%;aspect-ratio:4/5;max-width:480px;position:relative;
-  opacity:0;animation:fadeRight .9s .4s forwards;
-}
-.hero-img-placeholder{
-  width:100%;height:100%;
-  background:#0d0d0d;border:1px solid rgba(0,255,136,.1);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:1rem;font-family:var(--ff-mono);font-size:.65rem;color:var(--muted);
-  position:relative;overflow:hidden;
-}
-.hero-img-placeholder::before{
-  content:'';position:absolute;inset:0;
-  background:repeating-linear-gradient(0deg,transparent,transparent 48px,rgba(0,255,136,.025) 48px,rgba(0,255,136,.025) 49px);
-}
-.hdo{position:absolute;top:1rem;left:1rem;right:1rem;display:flex;flex-direction:column;gap:.5rem;pointer-events:none;z-index:2}
-.hdo-row{display:flex;justify-content:space-between;font-family:var(--ff-mono);font-size:.55rem;color:var(--muted)}
-.hdo-val{color:var(--green)}
-.hdo-val.violet{color:var(--violet)}
-.cbracket{position:absolute;width:18px;height:18px}
-.cbracket.tl{top:10px;left:10px;border-top:1.5px solid var(--green);border-left:1.5px solid var(--green)}
-.cbracket.tr{top:10px;right:10px;border-top:1.5px solid var(--green);border-right:1.5px solid var(--green)}
-.cbracket.bl{bottom:10px;left:10px;border-bottom:1.5px solid var(--violet);border-left:1.5px solid var(--violet)}
-.cbracket.br{bottom:10px;right:10px;border-bottom:1.5px solid var(--violet);border-right:1.5px solid var(--violet)}
-.rpm-bar{position:absolute;right:-10px;top:10%;height:80%;width:5px;background:#111;border-radius:2px;overflow:hidden}
-.rpm-fill{width:100%;background:linear-gradient(to top,var(--green),var(--violet));border-radius:2px;animation:rpmPulse 1.8s ease-in-out infinite alternate}
-@keyframes rpmPulse{from{height:35%}to{height:88%}}
-#particle-canvas{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.55}
+    <!-- RIGHT -->
+    <div class="hero-right">
+      <div class="hero-img-frame">
+        <div class="hero-img-placeholder">
+          <div class="cbracket tl"></div>
+          <div class="cbracket tr"></div>
+          <div class="cbracket bl"></div>
+          <div class="cbracket br"></div>
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   TICKER
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
-.ticker-wrapper{overflow:hidden;border-top:1px solid #111;border-bottom:1px solid #111;padding:.55rem 0;background:var(--dark)}
-.ticker-inner{display:flex;width:max-content;animation:ticker 30s linear infinite}
-.ticker-item{
-  font-family:var(--ff-mono);font-size:.58rem;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--muted);
-  padding:0 2rem;white-space:nowrap;display:flex;align-items:center;gap:.8rem;
-}
-.ticker-item .dot{color:var(--green);font-size:.45rem}
-.ticker-item .vdot{color:var(--violet);font-size:.45rem}
-@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+          <div class="hdo">
+            <div class="hdo-row">
+              <span>PILOT CAM</span>
+              <span class="hdo-val" style="display:flex;align-items:center;gap:.4rem">
+                <span class="tel-dot" style="width:5px;height:5px"></span>REC
+              </span>
+            </div>
+            <div class="hdo-row">
+              <span>SPEED</span>
+              <span class="hdo-val" id="hero-speed">278 km/h</span>
+            </div>
+            <div class="hdo-row">
+              <span>THROTTLE</span>
+              <span class="hdo-val violet">97%</span>
+            </div>
+            <div class="hdo-row">
+              <span>BRAKE</span>
+              <span class="hdo-val">0%</span>
+            </div>
+          </div>
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   SECTIONS COMMON
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
-section{padding:7rem 3rem}
-.eyebrow{
-  font-family:var(--ff-mono);font-size:.6rem;letter-spacing:.25em;
-  text-transform:uppercase;color:var(--green);
-  display:flex;align-items:center;gap:.6rem;margin-bottom:1rem;
-}
-.eyebrow::before{content:'//';color:var(--violet)}
-.sec-title{
-  font-family:var(--ff-display);font-weight:900;font-style:italic;
-  font-size:clamp(2.6rem,5vw,5.2rem);line-height:.92;
-  text-transform:uppercase;letter-spacing:-.02em;margin-bottom:1.5rem;
-}
-.sec-sub{font-size:.9rem;color:#666;max-width:520px;font-weight:300;line-height:1.85}
-.t-green{color:var(--green)}
-.t-violet{color:var(--violet)}
-.t-outline{-webkit-text-stroke:1.5px var(--white);color:transparent}
+          <!-- Circuit SVG decorative -->
+          <svg width="140" height="100" viewBox="0 0 140 100" fill="none"
+               aria-hidden="true"
+               style="position:relative;z-index:1;opacity:.2;margin-top:3rem">
+            <path d="M12 80 Q35 22 70 18 Q105 14 128 80" stroke="#00ff88" stroke-width="1.5" fill="none" stroke-dasharray="4 2"/>
+            <circle cx="70" cy="18" r="4" fill="none" stroke="#bf5fff" stroke-width="1.5"/>
+            <circle cx="70" cy="18" r="1.5" fill="#bf5fff"/>
+          </svg>
+          <p style="font-family:var(--ff-mono);font-size:.55rem;color:#1e1e1e;position:relative;z-index:1;letter-spacing:.1em">[ FOTO / VIDEO DEL PILOTO ]</p>
+        </div>
+        <div class="rpm-bar" aria-hidden="true"><div class="rpm-fill"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   EXPERIENCIAS â€” Columnas verticales
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
-#experiencias{background:var(--black);border-top:1px solid #111}
-.exp-header{
-  display:grid;grid-template-columns:1fr 1fr;gap:4rem;
-  align-items:end;margin-bottom:4rem;
-}
-/* Grid 3 columnas verticales tipo card */
-.exp-circuits{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:1px;background:#111;
-}
-.exp-circuit{
-  display:flex;flex-direction:column;
-  min-height:520px;
-  background:var(--black);position:relative;overflow:hidden;
-  border-bottom:3px solid transparent;
-  transition:border-color .4s;
-}
-/* Zona de imagen superior â€” ocupa ~60% */
-.exp-circuit-img{
-  flex:0 0 60%;
-  background:#0d0d0d;
-  background-size:cover;background-position:center;
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--ff-mono);font-size:.55rem;color:#2a2a2a;
-  letter-spacing:.1em;text-align:center;padding:1rem;
-  position:relative;transition:transform .5s ease;
-}
-.exp-circuit-img::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(to bottom,rgba(0,0,0,.1) 0%,rgba(5,5,5,.85) 100%);
-}
-.exp-circuit:hover .exp-circuit-img{transform:scale(1.03)}
-/* Contenido inferior */
-.exp-circuit-body{
-  flex:1;display:flex;flex-direction:column;justify-content:flex-end;
-  padding:2rem 1.8rem 2rem;
-  position:relative;
-}
-.exp-circuit-body::before{
-  content:'';position:absolute;left:0;top:0;right:0;bottom:0;
-  background:rgba(0,255,136,.03);opacity:0;transition:opacity .4s;
-}
-.exp-circuit:hover .exp-circuit-body::before{opacity:1}
-.exp-circuit:hover{border-bottom-color:var(--green)}
-.exp-num{
-  font-family:var(--ff-display);font-weight:900;font-size:3.2rem;
-  color:rgba(255,255,255,.08);line-height:1;margin-bottom:.4rem;
-  transition:color .3s;position:relative;z-index:1;
-}
-.exp-circuit:hover .exp-num{color:rgba(255,255,255,.18)}
-.exp-name{
-  font-family:var(--ff-display);font-weight:800;font-size:1.2rem;
-  text-transform:uppercase;letter-spacing:.05em;
-  transition:color .3s;position:relative;z-index:1;
-}
-.exp-circuit:hover .exp-name{color:var(--green);text-shadow:0 0 20px rgba(0,255,136,.3)}
-.exp-desc{
-  font-size:.78rem;color:#888;margin-top:.5rem;font-weight:300;line-height:1.6;
-  position:relative;z-index:1;
-}
-.exp-tag{
-  align-self:flex-start;margin-top:1.2rem;
-  font-family:var(--ff-mono);font-size:.52rem;letter-spacing:.15em;
-  text-transform:uppercase;padding:.3rem .9rem;
-  border:1px solid #1e1e1e;color:var(--muted);
-  transition:all .3s;position:relative;z-index:1;
-}
-.exp-circuit:hover .exp-tag{border-color:var(--violet);color:var(--violet);box-shadow:0 0 8px rgba(191,95,255,.2)}
+<!-- ═══════ TICKER ═══════ -->
+<div class="ticker-wrapper" aria-hidden="true">
+  <div class="ticker-inner">
+    <div class="ticker-item"><span class="dot">●</span>SIM RACING PROFESIONAL</div>
+    <div class="ticker-item"><span class="vdot">●</span>FIA CERTIFIED TRAINING</div>
+    <div class="ticker-item"><span class="dot">●</span>TECNOLOGÍA DE FÁBRICA</div>
+    <div class="ticker-item"><span class="vdot">●</span>METODOLOGÍA DE PILOTOS REALES</div>
+    <div class="ticker-item"><span class="dot">●</span>LATINOAMÉRICA</div>
+    <div class="ticker-item"><span class="vdot">●</span>ACADEMY 2027 · F3 PIPELINE</div>
+    <div class="ticker-item"><span class="dot">●</span>APEX · CORRÉ PARA GANAR</div>
+    <!-- Duplicate for seamless loop -->
+    <div class="ticker-item"><span class="dot">●</span>SIM RACING PROFESIONAL</div>
+    <div class="ticker-item"><span class="vdot">●</span>FIA CERTIFIED TRAINING</div>
+    <div class="ticker-item"><span class="dot">●</span>TECNOLOGÍA DE FÁBRICA</div>
+    <div class="ticker-item"><span class="vdot">●</span>METODOLOGÍA DE PILOTOS REALES</div>
+    <div class="ticker-item"><span class="dot">●</span>LATINOAMÉRICA</div>
+    <div class="ticker-item"><span class="vdot">●</span>ACADEMY 2027 · F3 PIPELINE</div>
+    <div class="ticker-item"><span class="dot">●</span>APEX · CORRÉ PARA GANAR</div>
+  </div>
+</div>
 
-/* BUG FIX: .media-strip y .media-ph no tenÃ­an estilos en el CSS original,
-   haciendo que la tira de fotos bajo Experiencias fuera invisible/sin formato. */
-.media-strip{
-  display:grid;grid-template-columns:repeat(2,1fr);gap:1px;
-  background:#111;margin-top:4rem;
-}
-.media-ph{
-  aspect-ratio:16/6;background:var(--dark);
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--ff-mono);font-size:.6rem;color:#222;letter-spacing:.08em;
-  border:1px solid #141414;
-}
+<!-- ═══════ EXPERIENCIAS ═══════ -->
+<section id="experiencias">
+  <div class="exp-header">
+    <div>
+      <div class="eyebrow reveal">Experiencias</div>
+      <h2 class="sec-title reveal d1">ELIGE TU<br>CIRCUITO</h2>
+    </div>
+    <p class="sec-sub reveal d2">
+      Tres mundos de velocidad. Un solo lugar donde perfeccionarlos. Cada modalidad tiene su propia curva de aprendizaje — y su propia adrenalina.
+    </p>
+  </div>
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   PROGRAMAS
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
-#programas{background:var(--dark);border-top:1px solid #111}
-.prog-header{display:grid;grid-template-columns:1fr 1fr;align-items:end;gap:4rem;margin-bottom:4rem}
-.prog-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#111}
-.prog-card{
-  background:var(--black);padding:2.8rem 2.2rem;
-  position:relative;overflow:hidden;
-  border-top:3px solid transparent;
-  transition:border-color .3s,transform .3s;
-}
-.prog-card:hover{transform:translateY(-4px)}
-.prog-card.featured{border-top-color:var(--green);box-shadow:0 -6px 30px rgba(0,255,136,.07)}
-.prog-card.elite-card{border-top-color:var(--violet);box-shadow:0 -6px 30px rgba(191,95,255,.07)}
-.prog-glow{
-  position:absolute;bottom:-60px;left:50%;transform:translateX(-50%);
-  width:200px;height:80px;border-radius:50%;
-  filter:blur(40px);pointer-events:none;opacity:0;transition:opacity .4s;
-}
-.prog-card.featured .prog-glow{background:var(--green-glow)}
-.prog-card.elite-card .prog-glow{background:var(--violet-glow)}
-.prog-card:hover .prog-glow{opacity:1}
-.prog-badge{
-  font-family:var(--ff-mono);font-size:.5rem;letter-spacing:.15em;
-  text-transform:uppercase;padding:.3rem .7rem;
-  display:inline-block;margin-bottom:1.5rem;
-}
-.b-default{background:#111;color:var(--muted)}
-.b-featured{background:rgba(0,255,136,.1);color:var(--green);border:1px solid rgba(0,255,136,.2)}
-.b-elite{background:rgba(191,95,255,.1);color:var(--violet);border:1px solid rgba(191,95,255,.2)}
-.prog-name{font-family:var(--ff-display);font-weight:900;font-size:2.8rem;text-transform:uppercase;letter-spacing:.03em;margin-bottom:.3rem}
-.prog-tagline{font-size:.78rem;color:var(--muted);margin-bottom:2rem;font-weight:300}
-.prog-divider{border:none;border-top:1px solid #181818;margin-bottom:2rem}
-.prog-features{list-style:none;display:flex;flex-direction:column;gap:.85rem;margin-bottom:2.5rem}
-.prog-features li{font-size:.8rem;color:#777;font-weight:300;display:flex;align-items:flex-start;gap:.7rem;line-height:1.45}
-.prog-features li::before{content:'â†’';color:var(--green);flex-shrink:0;font-size:.68rem;margin-top:.15rem}
-.elite-card .prog-features li::before{color:var(--violet)}
-.prog-price{font-family:var(--ff-display);font-weight:900;font-size:3.2rem;color:var(--white);line-height:1;margin-bottom:.2rem}
-.prog-period{font-size:.7rem;color:var(--muted);font-family:var(--ff-mono)}
-.prog-cta{
-  margin-top:2rem;width:100%;
-  font-family:var(--ff-display);font-size:.7rem;font-weight:700;
-  letter-spacing:.15em;text-transform:uppercase;
-  background:transparent;color:var(--white);
-  padding:.75rem;border:1px solid #252525;
-  transition:all .25s;display:block;text-align:center;
-}
-.prog-cta:hover{background:#111;border-color:#444}
-.cta-featured{background:var(--green);color:var(--black);border-color:var(--green);box-shadow:0 0 20px rgba(0,255,136,.25)}
-.cta-featured:hover{background:#1affa0;box-shadow:0 0 40px rgba(0,255,136,.4)}
-.cta-elite{border-color:var(--violet);color:var(--violet)}
-.cta-elite:hover{background:rgba(191,95,255,.1);box-shadow:0 0 20px rgba(191,95,255,.2)}
+  <!-- BUG FIX: estructura de exp-circuit corregida para que coincida con el CSS.
+       El CSS espera .exp-circuit-img y .exp-circuit-body como hijos directos.
+       El HTML original tenía .exp-num, .exp-name, etc. sueltos sin ese wrapper,
+       lo que rompía todos los estilos de hover (imagen, overlay, borde inferior). -->
+  <div class="exp-circuits reveal d1">
+    <div class="exp-circuit">
+      <div class="exp-circuit-img">[ FOTO — TRAZADA ]</div>
+      <div class="exp-circuit-body">
+        <div class="exp-num">01</div>
+        <div class="exp-name">Trazada Perfecta</div>
+        <div class="exp-desc">Dominá la geometría de cada curva con telemetría en tiempo real. Aprendé el punto de entrada, el ápex y la salida como un piloto de fábrica.</div>
+        <div class="exp-tag">Técnica</div>
+      </div>
+    </div>
+    <div class="exp-circuit">
+      <div class="exp-circuit-img">[ FOTO — NEUMÁTICOS ]</div>
+      <div class="exp-circuit-body">
+        <div class="exp-num">02</div>
+        <div class="exp-name">Gestión de Neumáticos</div>
+        <div class="exp-desc">Aprendé a leer y administrar cada décima de desgaste como un profesional. La consistencia gana carreras.</div>
+        <div class="exp-tag">Estrategia</div>
+      </div>
+    </div>
+    <div class="exp-circuit">
+      <div class="exp-circuit-img">[ FOTO — CARRERA ]</div>
+      <div class="exp-circuit-body">
+        <div class="exp-num">03</div>
+        <div class="exp-name">Carrera Bajo Presión</div>
+        <div class="exp-desc">Simulaciones de race-pace con adversarios y condiciones dinámicas. Mentalidad de campeón cuando más importa.</div>
+        <div class="exp-tag">Competencia</div>
+      </div>
+    </div>
+  </div>
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   TECNOLOGIA
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
-#tecnologia{background:var(--black);border-top:1px solid #111}
-.tech-header{text-align:center;margin-bottom:5rem}
-.tech-header .sec-sub{margin:0 auto;text-align:center}
-.tech-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:#111}
-.tech-item{
-  background:var(--black);padding:3rem;
-  display:grid;grid-template-columns:56px 1fr;gap:2rem;align-items:start;
-  transition:background .3s;position:relative;overflow:hidden;
-}
-.tech-item::after{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent 10%,var(--muted2) 50%,transparent 90%);
-}
-.tech-item:hover{background:#060606}
-.tech-num{font-family:var(--ff-display);font-weight:900;font-size:3.5rem;color:#161616;line-height:1;transition:color .3s}
-.tech-item:hover .tech-num{color:#1f1f1f}
-.tech-name{font-family:var(--ff-display);font-weight:800;font-size:1.05rem;text-transform:uppercase;letter-spacing:.08em;color:var(--white);margin-bottom:.8rem;transition:color .3s}
-.tech-item:hover .tech-name{color:var(--green)}
-.tech-desc{font-size:.8rem;color:#5a5a5a;font-weight:300;line-height:1.72;margin-bottom:1rem}
-.tech-tag{font-family:var(--ff-mono);font-size:.52rem;letter-spacing:.15em;text-transform:uppercase;color:var(--violet);display:flex;align-items:center;gap:.4rem}
-.tech-tag::before{content:'â†’';color:var(--green)}
-.tech-media{display:grid;grid-template-columns:2fr 1fr;gap:1px;background:#111;margin-top:1px}
-.tech-ph-main{aspect-ratio:16/6;background:var(--dark);border:1px solid #141414;display:flex;align-items:center;justify-content:center;font-family:var(--ff-mono);font-size:.6rem;color:#222;letter-spacing:.08em}
-.tech-ph-col{display:flex;flex-direction:column;gap:1px}
-.tech-ph-sm{flex:1;background:var(--dark);border:1px solid #141414;display:flex;align-items:center;justify-content:center;font-family:var(--ff-mono);font-size:.5rem;color:#1e1e1e;text-align:center;padding:.5rem}
+  <div class="media-strip reveal d2">
+    <div class="media-ph">[ FOTO / VIDEO — SESIÓN ONBOARD ]</div>
+    <div class="media-ph">[ FOTO / VIDEO — COCKPIT EXPERIENCE ]</div>
+  </div>
+</section>
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   ACADEMIA
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
-#academia{background:var(--black);border-top:1px solid #111}
-.academy-inner{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
-/* BUG FIX: .academy-left no tenÃ­a estilos, el contenido izquierdo de la
-   academia no tenÃ­a ningÃºn layout definido. */
-.academy-left{
-  display:flex;flex-direction:column;
-}
-.year-badge{
-  display:inline-flex;align-items:center;gap:.8rem;
-  border:1px solid rgba(191,95,255,.35);padding:.5rem 1.2rem;
-  margin-bottom:2rem;font-family:var(--ff-mono);font-size:.6rem;
-  letter-spacing:.15em;text-transform:uppercase;color:var(--violet);
-  box-shadow:0 0 16px rgba(191,95,255,.1);
-}
-.year-badge .yr{font-size:1rem;font-weight:700}
-.pipeline-box{border:1px solid rgba(0,255,136,.12);padding:2.5rem;background:rgba(0,255,136,.02);position:relative}
-.pipeline-box::before{
-  content:'// F3 PIPELINE â€” 2027';
-  position:absolute;top:-10px;left:2rem;
-  background:var(--black);padding:0 .8rem;
-  font-family:var(--ff-mono);font-size:.52rem;letter-spacing:.2em;color:var(--green);
-}
-.pipeline-step{display:flex;gap:1.5rem;align-items:flex-start;padding:1.3rem 0;border-bottom:1px solid #141414}
-.pipeline-step:last-child{border-bottom:none}
-.p-icon{
-  width:30px;height:30px;border:1px solid #1e1e1e;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--ff-mono);font-size:.58rem;color:var(--green);transition:all .3s;
-}
-.pipeline-step:hover .p-icon{border-color:var(--green);box-shadow:0 0 10px rgba(0,255,136,.2)}
-.p-title{font-family:var(--ff-display);font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
-.p-desc{font-size:.76rem;color:#555;margin-top:.2rem;font-weight:300}
-.p-final .p-icon{border-color:var(--violet);color:var(--violet)}
-.p-final .p-title{color:var(--green)}
+<!-- ═══════ PROGRAMAS ═══════ -->
+<section id="programas">
+  <div class="prog-header">
+    <div>
+      <div class="eyebrow reveal">Programas</div>
+      <h2 class="sec-title reveal d1">ELIGE TU<br>NIVEL</h2>
+    </div>
+    <p class="sec-sub reveal d2">Cada programa está diseñado por ex-pilotos de categorías internacionales. No hay atajos. Hay método.</p>
+  </div>
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   TESTIMONIOS / PILOTOS
-   BUG FIX: toda esta secciÃ³n carecÃ­a de estilos en el CSS original.
-   Los elementos existÃ­an en el HTML pero eran completamente invisibles
-   o sin formato alguno.
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
-#pilotos{background:var(--dark);border-top:1px solid #111}
-.testi-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
-  background:#111;margin-top:4rem;margin-bottom:1px;
-}
-.testi-card{
-  background:var(--black);padding:2.5rem 2rem;
-  position:relative;overflow:hidden;
-  border-top:2px solid transparent;
-  transition:border-color .3s,background .3s;
-}
-.testi-card:hover{background:#060606;border-top-color:var(--green)}
-.testi-prog{
-  font-family:var(--ff-mono);font-size:.5rem;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--green);margin-bottom:1.5rem;
-}
-.testi-q{
-  font-size:.85rem;color:#888;font-weight:300;line-height:1.8;
-  margin-bottom:2rem;font-style:italic;
-}
-.testi-q::before{content:'"';font-family:var(--ff-display);font-size:3rem;color:#1a1a1a;line-height:0;vertical-align:-.6rem;margin-right:.3rem}
-.testi-author{display:flex;align-items:center;gap:1rem}
-.testi-av{
-  width:36px;height:36px;border-radius:50%;flex-shrink:0;
-  background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.2);
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--ff-mono);font-size:.55rem;color:var(--green);
-}
-.testi-name{font-family:var(--ff-display);font-weight:700;font-size:.85rem;letter-spacing:.04em;text-transform:uppercase}
-.testi-role{font-family:var(--ff-mono);font-size:.5rem;color:var(--muted);letter-spacing:.1em;margin-top:.2rem}
+  <div class="prog-cards">
 
-/* BUG FIX: .pilots-strip y .pilot-ph no tenÃ­an estilos en el CSS original. */
-.pilots-strip{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
-  background:#111;margin-top:4rem;
-}
-.pilot-ph{
-  aspect-ratio:3/4;background:var(--dark);
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--ff-mono);font-size:.5rem;color:#1e1e1e;
-  text-align:center;border:1px solid #141414;
-}
+    <!-- ENTRY -->
+    <div class="prog-card reveal">
+      <div class="prog-glow"></div>
+      <span class="prog-badge b-default">NIVEL 01</span>
+      <div class="prog-name">ENTRY</div>
+      <p class="prog-tagline">Para pilotos que comienzan a tomarse en serio el sim</p>
+      <hr class="prog-divider">
+      <ul class="prog-features">
+        <li>Introducción a telemetría y análisis de vueltas</li>
+        <li>4 sesiones de 90 min en simulador</li>
+        <li>Setup básico de volante y pedales</li>
+        <li>Informe de evolución al cierre</li>
+      </ul>
+      <div class="prog-price">$290</div>
+      <div class="prog-period">/ programa</div>
+      <a href="#cta" class="prog-cta">Comenzar →</a>
+    </div>
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   CTA
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
-#cta{
-  background:var(--dark);border-top:1px solid #111;
-  padding:9rem 3rem;text-align:center;position:relative;overflow:hidden;
-}
-.cta-bg-text{
-  position:absolute;bottom:-2rem;left:50%;transform:translateX(-50%);
-  font-family:var(--ff-display);font-weight:900;font-style:italic;
-  font-size:20vw;color:transparent;-webkit-text-stroke:1px #0f0f0f;
-  white-space:nowrap;pointer-events:none;user-select:none;letter-spacing:-.05em;line-height:1;
-}
-.cta-tag{font-family:var(--ff-mono);font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;color:var(--green);display:block;margin-bottom:1.5rem}
-.cta-title{
-  font-family:var(--ff-display);font-weight:900;font-style:italic;
-  font-size:clamp(3.2rem,6.5vw,7rem);line-height:.88;
-  text-transform:uppercase;letter-spacing:-.02em;margin-bottom:1.5rem;
-}
-.cta-main-text{display:inline-block}
-.cta-sub{font-size:.9rem;color:#555;max-width:460px;margin:0 auto 3rem;font-weight:300;line-height:1.85}
-.cta-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
-.cta-note{margin-top:2rem;font-family:var(--ff-mono);font-size:.58rem;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+    <!-- PRO -->
+    <div class="prog-card featured reveal d1">
+      <div class="prog-glow"></div>
+      <span class="prog-badge b-featured">NIVEL 02 · MÁS POPULAR</span>
+      <div class="prog-name">PRO</div>
+      <p class="prog-tagline">El camino real de quienes apuntan a competir</p>
+      <hr class="prog-divider">
+      <ul class="prog-features">
+        <li>8 sesiones de 2 hs con coach dedicado</li>
+        <li>Análisis comparativo por sectores y datos de F1</li>
+        <li>Psicología del piloto y gestión mental de carrera</li>
+        <li>Acceso prioritario a eventos y campeonatos APEX</li>
+      </ul>
+      <div class="prog-price">$590</div>
+      <div class="prog-period">/ programa</div>
+      <a href="#cta" class="prog-cta cta-featured">Comenzar →</a>
+    </div>
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   FOOTER
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
-footer{
-  background:var(--black);border-top:1px solid #111;
-  padding:3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;
-}
-.footer-logo{font-family:var(--ff-display);font-weight:900;font-size:1.2rem;letter-spacing:.08em;color:var(--green);text-shadow:0 0 16px rgba(0,255,136,.3)}
-.footer-copy{font-family:var(--ff-mono);font-size:.55rem;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
-.footer-links{display:flex;gap:2rem;flex-wrap:wrap}
-.footer-links a{font-family:var(--ff-mono);font-size:.55rem;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;transition:color .2s}
-.footer-links a:hover{color:var(--green)}
+    <!-- ELITE -->
+    <div class="prog-card elite-card reveal d2">
+      <div class="prog-glow"></div>
+      <span class="prog-badge b-elite">NIVEL 03 · ELITE</span>
+      <div class="prog-name">ELITE</div>
+      <p class="prog-tagline">Entrenamiento sin límites. Solo para los más comprometidos</p>
+      <hr class="prog-divider">
+      <ul class="prog-features">
+        <li>Acceso ilimitado por 30 días a todos los simuladores</li>
+        <li>Coach personal con ex-piloto profesional</li>
+        <li>Telemetría avanzada + análisis de video onboard</li>
+        <li>Programa de nutrición y preparación física para pilotos</li>
+      </ul>
+      <div class="prog-price">$990</div>
+      <div class="prog-period">/ mes</div>
+      <a href="#cta" class="prog-cta cta-elite">Comenzar →</a>
+    </div>
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   REVEAL ANIMATIONS
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
-.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s ease}
-.reveal.visible{opacity:1;transform:translateY(0)}
-.reveal-l{opacity:0;transform:translateX(-40px);transition:opacity .8s ease,transform .8s ease}
-.reveal-l.visible{opacity:1;transform:translateX(0)}
-.reveal-r{opacity:0;transform:translateX(40px);transition:opacity .8s ease,transform .8s ease}
-.reveal-r.visible{opacity:1;transform:translateX(0)}
-.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
-.d4{transition-delay:.4s}.d5{transition-delay:.5s}
+  </div>
+</section>
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-@keyframes fadeRight{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
-/* BUG FIX: @keyframes logoGlitch estaba duplicado (en <style> inline del HTML
-   y acÃ¡). Se eliminÃ³ el bloque inline y se deja sÃ³lo este. */
-@keyframes logoGlitch{
-  0%  {transform:translate(0,0);  color:var(--green)}
-  25% {transform:translate(-3px,0);color:var(--violet)}
-  50% {transform:translate(3px,0); color:var(--green)}
-  75% {transform:translate(-2px,0);color:var(--white)}
-  100%{transform:translate(0,0);  color:var(--green)}
-}
+<!-- ═══════ TECNOLOGIA ═══════ -->
+<section id="tecnologia">
+  <div class="tech-header">
+    <div class="eyebrow reveal" style="justify-content:center">Tecnología</div>
+    <h2 class="sec-title reveal d1" style="text-align:center">HARDWARE DE<br>NIVEL MUNDIAL</h2>
+    <p class="sec-sub reveal d2">Los mismos sistemas que usan los equipos de fábrica. Sin compromisos.</p>
+  </div>
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   RESPONSIVE
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+  <div class="tech-grid reveal d2">
+    <div class="tech-item">
+      <div class="tech-num">01</div>
+      <div>
+        <div class="tech-name">Movimiento de 6 Ejes DOF</div>
+        <p class="tech-desc">Plataformas de movimiento hexapodales que replican cada transferencia de peso, cada vibración de pavimento y cada reacción aerodinámica con precisión milimétrica.</p>
+        <div class="tech-tag">Inmersión Total</div>
+      </div>
+    </div>
+    <div class="tech-item">
+      <div class="tech-num">02</div>
+      <div>
+        <div class="tech-name">Volantes Direct Drive</div>
+        <p class="tech-desc">Torque de hasta 25 Nm. La retroalimentación de fuerza más fiel del mercado. Sentís el límite del agarre antes de perderlo, exactamente como en pista.</p>
+        <div class="tech-tag">Feedback Real</div>
+      </div>
+    </div>
+    <div class="tech-item">
+      <div class="tech-num">03</div>
+      <div>
+        <div class="tech-name">Pedales de Carga Celda</div>
+        <p class="tech-desc">Control de frenada basado en presión, no en recorrido. La misma curva de respuesta de los monoplazas de competición. Consistencia repetible, vuelta a vuelta.</p>
+        <div class="tech-tag">Control Absoluto</div>
+      </div>
+    </div>
+    <div class="tech-item">
+      <div class="tech-num">04</div>
+      <div>
+        <div class="tech-name">Visión Triple Pantalla + VR</div>
+        <p class="tech-desc">Configuración triple 4K de 55" o inmersión completa en VR de última generación. El campo visual correcto cambia la percepción de velocidad y la trazada para siempre.</p>
+        <div class="tech-tag">Visión Sin Límites</div>
+      </div>
+    </div>
+  </div>
 
-/* Tablet â€” 1024px */
-@media(max-width:1024px){
-  nav{padding:0 2rem}
-  section{padding:5rem 2rem}
-  #hero{padding:56px 2rem 0}
-  .hero-telemetry-bar{padding:0 2rem;gap:1.5rem}
-  .hero-grid{gap:2.5rem;padding-top:80px}
-  .hero-headline{font-size:clamp(3.5rem,6vw,6rem)}
-  .exp-header{grid-template-columns:1fr;gap:1.5rem}
-  .prog-header{grid-template-columns:1fr;gap:1.5rem}
-  .academy-inner{gap:3.5rem}
-  .testi-grid{grid-template-columns:1fr}
-}
+  <div class="tech-media reveal d3">
+    <div class="tech-ph-main">[ FOTO PRINCIPAL — SALA DE SIMULADORES ]</div>
+    <div class="tech-ph-col">
+      <div class="tech-ph-sm">[ DETALLE<br>VOLANTE ]</div>
+      <div class="tech-ph-sm">[ VR<br>HEADSET ]</div>
+    </div>
+  </div>
+</section>
 
-/* Mobile â€” 768px */
-@media(max-width:768px){
-  nav{padding:0 1.5rem}
-  .nav-links{display:none;position:fixed;top:56px;left:0;right:0;bottom:0;
-    background:rgba(5,5,5,.97);flex-direction:column;align-items:center;
-    justify-content:center;gap:2.5rem;z-index:199;
-  }
-  .nav-links.open{display:flex}
-  .nav-links a{font-size:1.4rem;letter-spacing:.15em}
-  .nav-cta{display:none}
-  .nav-toggle{display:flex}
+<!-- ═══════ ACADEMIA F3 ═══════ -->
+<section id="academia">
+  <div class="academy-inner">
+    <div class="academy-left">
+      <div class="year-badge reveal"><span class="yr">2027</span> PRÓXIMAMENTE</div>
+      <div class="eyebrow reveal">Academia de Talentos</div>
+      <h2 class="sec-title reveal d1">DEL SIM<br>A LA PISTA<br><span class="t-green">REAL</span></h2>
+      <p class="sec-sub reveal d2">
+        En 2026, la FIA validó las competencias virtuales. Los equipos de Fórmula buscan talentos en los simuladores. APEX cierra convenios con equipos de <span class="t-violet">Fórmula 3</span> para 2027 — tus vueltas acá son tu prueba de ingreso.
+      </p>
+    </div>
 
-  #hero{padding:56px 1.5rem 0;min-height:auto}
-  .hero-telemetry-bar{display:none}
-  .hero-grid{
-    grid-template-columns:1fr;padding-top:60px;gap:2rem;
-  }
-  .hero-right{display:none}
-  .hero-headline{font-size:clamp(3.8rem,14vw,5.5rem)}
-  .hero-body{font-size:.9rem}
+    <div class="pipeline-box reveal-r d1">
+      <div class="pipeline-step">
+        <div class="p-icon">01</div>
+        <div>
+          <div class="p-title">Entrenamiento APEX</div>
+          <div class="p-desc">Perfeccionás técnica, telemetría y mentalidad competitiva en nuestros simuladores de élite.</div>
+        </div>
+      </div>
+      <div class="pipeline-step">
+        <div class="p-icon">02</div>
+        <div>
+          <div class="p-title">Selección Interna</div>
+          <div class="p-desc">Los mejores tiempos y la consistencia determinan los pilotos elegibles para el pipeline.</div>
+        </div>
+      </div>
+      <div class="pipeline-step">
+        <div class="p-icon">03</div>
+        <div>
+          <div class="p-title">Evaluación F3 — 2027</div>
+          <div class="p-desc">Convenios con equipos internacionales de Fórmula 3. Tus métricas de sim hablan por vos.</div>
+        </div>
+      </div>
+      <div class="pipeline-step p-final">
+        <div class="p-icon">→</div>
+        <div>
+          <div class="p-title">Test en Pista Real</div>
+          <div class="p-desc">El simulador fue el boleto. La pista es el destino.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  .ticker-item{padding:0 1rem;font-size:.5rem}
+<!-- ═══════ PILOTOS / TESTIMONIOS ═══════ -->
+<section id="pilotos">
+  <div>
+    <div class="eyebrow reveal">Pilotos APEX</div>
+    <h2 class="sec-title reveal d1">LO QUE<br>DICEN</h2>
+  </div>
 
-  section{padding:4rem 1.5rem}
+  <div class="testi-grid">
+    <div class="testi-card reveal">
+      <div class="testi-prog">PROGRAMA PRO</div>
+      <p class="testi-q">Vine sin saber leer una curva de telemetría. Tres meses después bajé 1.8 segundos por vuelta. APEX cambió la forma en que veo una pista.</p>
+      <div class="testi-author">
+        <div class="testi-av">MR</div>
+        <div>
+          <div class="testi-name">Mateo Rodríguez</div>
+          <div class="testi-role">Piloto · Buenos Aires</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal d1">
+      <div class="testi-prog">PROGRAMA ELITE</div>
+      <p class="testi-q">El análisis comparativo con datos de F1 reales me abrió la cabeza. Ahora entiendo qué hace la diferencia en cada sector. El método APEX es otro nivel.</p>
+      <div class="testi-author">
+        <div class="testi-av">SV</div>
+        <div>
+          <div class="testi-name">Sofía Vega</div>
+          <div class="testi-role">Piloto · Córdoba</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal d2">
+      <div class="testi-prog">PROGRAMA ENTRY</div>
+      <p class="testi-q">Empecé con el Entry y ya estoy en PRO. La plataforma de 6 ejes no tiene comparación — cuando subí a un auto real, todo me resultó familiar.</p>
+      <div class="testi-author">
+        <div class="testi-av">LP</div>
+        <div>
+          <div class="testi-name">Lucas Peralta</div>
+          <div class="testi-role">Piloto · Rosario</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  /* Experiencias: 1 columna en mÃ³vil */
-  .exp-header{grid-template-columns:1fr;gap:1.5rem}
-  .exp-circuits{grid-template-columns:1fr}
-  .exp-circuit{min-height:400px}
-  .exp-circuit-img{flex:0 0 55%}
+  <div class="pilots-strip reveal d2">
+    <div class="pilot-ph">[ FOTO PILOTO 1 ]</div>
+    <div class="pilot-ph">[ FOTO PILOTO 2 ]</div>
+    <div class="pilot-ph">[ FOTO PILOTO 3 ]</div>
+    <div class="pilot-ph">[ FOTO SESIÓN ]</div>
+  </div>
+</section>
 
-  .media-strip{grid-template-columns:1fr}
+<!-- ═══════ CTA ═══════ -->
+<section id="cta">
+  <div class="cta-bg-text" aria-hidden="true">APEX</div>
 
-  .prog-header{grid-template-columns:1fr;gap:1.5rem}
-  .prog-cards{grid-template-columns:1fr}
-  .prog-card{padding:2rem 1.5rem}
+  <span class="cta-tag reveal">Dar el Paso</span>
 
-  .tech-grid{grid-template-columns:1fr}
-  .tech-item{grid-template-columns:40px 1fr;gap:1.2rem;padding:2rem 1.5rem}
-  .tech-num{font-size:2.5rem}
-  .tech-media{grid-template-columns:1fr}
-  .tech-ph-col{flex-direction:row}
+  <h2 class="cta-title reveal d1">
+    <span class="t-outline"><span class="cta-main-text">EL TIEMPO</span></span><br>
+    ES <span class="t-green">AHORA</span>
+  </h2>
 
-  .academy-inner{grid-template-columns:1fr;gap:2.5rem}
-  .pipeline-box{padding:1.8rem}
+  <p class="cta-sub reveal d2">
+    Cada vuelta que no entrenás es una vuelta que otro aprovecha. APEX tiene cupos limitados por diseño. Así garantizamos la atención que merecés.
+  </p>
 
-  .testi-grid{grid-template-columns:1fr}
-  .pilots-strip{grid-template-columns:repeat(2,1fr)}
+  <div class="cta-actions reveal d3">
+    <a href="mailto:info@apexsimracing.com" class="btn-primary">Reservar Mi Lugar</a>
+    <a href="#programas" class="btn-ghost"><span class="play">▶</span> Ver Programas</a>
+  </div>
 
-  .cta-title{font-size:clamp(2.8rem,12vw,4.5rem)}
-  .cta-sub{font-size:.85rem}
+  <p class="cta-note reveal d4">Cupos limitados · Respuesta en menos de 24 hs</p>
+</section>
 
-  footer{flex-direction:column;align-items:flex-start;gap:1.5rem;padding:2rem 1.5rem}
-  .footer-links{gap:1rem}
-}
+<!-- ═══════ FOOTER ═══════ -->
+<footer>
+  <div class="footer-logo">APEX.</div>
+  <p class="footer-copy">© 2026 APEX Sim Racing — Latinoamérica</p>
+  <div class="footer-links">
+    <a href="#experiencias">Experiencias</a>
+    <a href="#programas">Programas</a>
+    <a href="#tecnologia">Simuladores</a>
+    <a href="#academia">Academia</a>
+    <a href="mailto:info@apexsimracing.com">Contacto</a>
+  </div>
+</footer>
 
-/* Small mobile â€” 480px */
-@media(max-width:480px){
-  .hero-headline{font-size:clamp(3.2rem,16vw,4.5rem)}
-  .exp-circuits{grid-template-columns:1fr}
-  .prog-cards{grid-template-columns:1fr}
-  #cursor,#cursor-ring{display:none}
-  .hero-actions{flex-direction:column;align-items:flex-start}
-  .btn-primary,.btn-ghost{width:100%;text-align:center;justify-content:center}
-  .pilots-strip{grid-template-columns:repeat(2,1fr)}
-}
-
-
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   SIMULADORES
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
-#simuladores{
-  background:var(--dark);
-  border-top:1px solid #111;
-}
-.sim-header{
-  text-align:center;
-  margin-bottom:4rem;
-}
-.sim-header .sec-sub{
-  margin:0 auto;
-}
-.sim-showcase{
-  display:grid;
-  grid-template-columns:2fr 1fr;
-  gap:1px;
-  background:#111;
-}
-.sim-video{
-  aspect-ratio:16/9;
-  overflow:hidden;
-  background:#0d0d0d;
-}
-.sim-video video{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-}
-.sim-gallery{
-  display:grid;
-  grid-template-rows:repeat(3,1fr);
-  gap:1px;
-}
-.sim-gallery img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-}
-.hero-img-placeholder img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-@media(max-width:768px){
-  .sim-showcase{grid-template-columns:1fr;}
-  .sim-gallery{
-    grid-template-columns:repeat(3,1fr);
-    grid-template-rows:auto;
-  }
-}
+<script src="script.js"></script>
+</body>
+</html>
