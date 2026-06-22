@@ -89,3 +89,181 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 });
+
+/* ==========================================
+APEX — NEXT LEVEL EXPERIENCE
+PEGAR AL FINAL DE script.js
+========================================== */
+
+/* ── PREMIUM SCROLL REVEAL ── */
+
+const premiumReveal = document.querySelectorAll(
+'.prog-card,.tech-item,.pipeline-box,.sim-cinema,.sim-mini,.exp-circuit'
+);
+
+const revealObserver = new IntersectionObserver((entries)=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+
+entry.target.animate(
+[
+{
+opacity:0,
+transform:'translateY(80px) scale(.98)'
+},
+{
+opacity:1,
+transform:'translateY(0) scale(1)'
+}
+],
+{
+duration:1200,
+easing:'cubic-bezier(.18,.9,.18,1)',
+fill:'forwards'
+}
+);
+
+revealObserver.unobserve(entry.target);
+
+}
+
+});
+
+},{
+threshold:.18
+});
+
+premiumReveal.forEach(el=>{
+el.style.opacity='0';
+revealObserver.observe(el);
+});
+
+
+/* ── NAV DEPTH ── */
+
+window.addEventListener('scroll',()=>{
+
+const nav=document.querySelector('nav');
+
+if(!nav) return;
+
+if(window.scrollY>40){
+
+nav.style.background='rgba(5,5,5,.82)';
+nav.style.backdropFilter='blur(34px)';
+nav.style.borderBottom='1px solid rgba(255,255,255,.08)';
+
+}else{
+
+nav.style.background='';
+nav.style.backdropFilter='';
+nav.style.borderBottom='';
+
+}
+
+},{passive:true});
+
+
+/* ── HERO PARALLAX ── */
+
+const hero=document.querySelector('#hero');
+
+window.addEventListener('scroll',()=>{
+
+if(!hero)return;
+
+hero.style.transform=
+`translateY(${window.scrollY*.04}px)`;
+
+},{passive:true});
+
+
+/* ── LIGHT FOLLOW ── */
+
+document.addEventListener('mousemove',(e)=>{
+
+document.body.style.background=
+`
+radial-gradient(
+circle at
+${e.clientX}px
+${e.clientY}px,
+
+rgba(0,255,136,.025),
+
+transparent 520px
+)
+`;
+
+});
+
+
+/* ── PREMIUM CARD HOVER ── */
+
+document
+.querySelectorAll(
+'.prog-card,.tech-item'
+)
+.forEach(card=>{
+
+card.addEventListener(
+'mouseenter',
+()=>{
+
+card.style.transition=
+'all .6s ease';
+
+card.style.transform=
+'translateY(-10px)';
+
+}
+);
+
+card.addEventListener(
+'mouseleave',
+()=>{
+
+card.style.transform='';
+
+}
+);
+
+});
+
+
+/* ── SCROLL PROGRESS SMOOTH ── */
+
+const bar=
+document.getElementById(
+'scroll-bar'
+);
+
+if(bar){
+
+window.addEventListener(
+'scroll',
+()=>{
+
+const p=
+window.scrollY/
+(
+document.body.scrollHeight-
+window.innerHeight
+);
+
+bar.style.transform=
+`scaleX(${p})`;
+
+},
+{
+passive:true
+}
+);
+
+}
+
+console.log(
+'APEX NEXT LEVEL ACTIVE'
+);
