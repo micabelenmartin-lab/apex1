@@ -88,3 +88,174 @@ h2 {
   section { padding: 6rem 1rem; }
   h2 { font-size: 2.5rem; }
 }
+
+/* ===========================
+APEX â€” NEXT LEVEL CSS PASS
+Agregar debajo de tu style.css actual
+=========================== */
+
+:root{
+--glass:rgba(255,255,255,.035);
+--premium-border:rgba(255,255,255,.06);
+--soft-green:rgba(0,255,136,.08);
+}
+
+/* sensaciÃ³n de aire */
+section{
+padding-top:10rem!important;
+padding-bottom:10rem!important;
+position:relative;
+}
+
+section::before{
+content:'';
+position:absolute;
+inset:0;
+pointer-events:none;
+background:
+radial-gradient(circle at top, rgba(0,255,136,.04), transparent 45%);
+}
+
+/* NAV */
+nav{
+height:72px!important;
+backdrop-filter:blur(28px)!important;
+background:rgba(5,5,5,.65)!important;
+border-bottom:1px solid rgba(255,255,255,.05)!important;
+}
+
+/* HERO */
+#hero{
+min-height:110vh!important;
+}
+
+.hero-status-bar{
+display:flex;
+justify-content:space-between;
+padding:1rem 0;
+font-size:.65rem;
+letter-spacing:.22em;
+opacity:.55;
+text-transform:uppercase;
+}
+
+.hero-headline{
+font-size:clamp(5rem,9vw,10rem)!important;
+letter-spacing:-.06em!important;
+line-height:.82!important;
+}
+
+.hero-body{
+max-width:620px!important;
+font-size:1.02rem!important;
+line-height:2!important;
+}
+
+.hero-trust{
+display:flex;
+gap:1rem;
+margin-bottom:2rem;
+flex-wrap:wrap;
+}
+
+.hero-trust span{
+padding:.7rem 1rem;
+border:1px solid var(--premium-border);
+background:var(--glass);
+backdrop-filter:blur(20px);
+font-size:.7rem;
+letter-spacing:.14em;
+text-transform:uppercase;
+}
+
+.hero-scroll{
+position:absolute;
+left:50%;
+bottom:3rem;
+transform:translateX(-50%);
+opacity:.4;
+letter-spacing:.25em;
+font-size:.65rem;
+}
+
+/* tarjetas */
+.prog-card,
+.tech-item,
+.pipeline-box{
+background:var(--glass)!important;
+backdrop-filter:blur(26px)!important;
+border:1px solid var(--premium-border)!important;
+transition:.45s!important;
+}
+
+.prog-card:hover,
+.tech-item:hover{
+transform:translateY(-10px)!important;
+box-shadow:
+0 20px 80px rgba(0,0,0,.55),
+0 0 80px var(--soft-green)!important;
+}
+
+/* simuladores */
+#simuladores-showcase{
+background:#050505;
+}
+
+.sim-stage{
+display:grid;
+grid-template-columns:1.6fr .6fr;
+gap:1rem;
+margin-top:4rem;
+}
+
+.sim-cinema{
+aspect-ratio:16/9;
+border-radius:30px;
+overflow:hidden;
+background:
+linear-gradient(180deg,transparent,rgba(0,0,0,.45)),
+radial-gradient(circle at center, rgba(0,255,136,.08), #090909);
+border:1px solid rgba(255,255,255,.05);
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.sim-label{
+font-size:1.4rem;
+letter-spacing:.18em;
+opacity:.2;
+}
+
+.sim-side{
+display:grid;
+gap:1rem;
+}
+
+.sim-mini{
+border-radius:22px;
+background:var(--glass);
+backdrop-filter:blur(18px);
+border:1px solid var(--premium-border);
+display:flex;
+align-items:center;
+justify-content:center;
+min-height:220px;
+}
+
+/* responsive */
+@media(max-width:900px){
+
+.hero-headline{
+font-size:4rem!important;
+}
+
+.sim-stage{
+grid-template-columns:1fr!important;
+}
+
+section{
+padding:6rem 1.5rem!important;
+}
+
+}
