@@ -631,7 +631,9 @@ footer{
 .hero-grid{position:relative;z-index:1}
 .hero-tag,.hero-headline,.hero-body,.hero-actions{position:relative;z-index:1}
 
-/* ── EXTRA KEYFRAMES (JS-triggered) ── */
+
+
+/* Extra keyframes that reference JS-triggered classes */
 @keyframes logoGlitch {
   0%  { transform: translate(0,0);   color: var(--green) }
   25% { transform: translate(-3px,0); color: var(--violet) }
@@ -639,8 +641,7 @@ footer{
   75% { transform: translate(-2px,0); color: var(--white) }
   100%{ transform: translate(0,0);   color: var(--green) }
 }
-
-/* ── SCROLL PROGRESS BAR ── */
+/* Scroll progress bar */
 #scroll-bar {
   position:fixed;top:56px;left:0;height:2px;width:0%;
   background:linear-gradient(90deg,var(--green),var(--violet));
