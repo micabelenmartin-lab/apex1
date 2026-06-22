@@ -8,8 +8,29 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700;1,900&family=Barlow:wght@300;400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<style>
+/* Extra keyframes that reference JS-triggered classes */
+@keyframes logoGlitch {
+  0%  { transform: translate(0,0);   color: var(--green) }
+  25% { transform: translate(-3px,0); color: var(--violet) }
+  50% { transform: translate(3px,0);  color: var(--green) }
+  75% { transform: translate(-2px,0); color: var(--white) }
+  100%{ transform: translate(0,0);   color: var(--green) }
+}
+/* Scroll progress bar */
+#scroll-bar {
+  position:fixed;top:56px;left:0;height:2px;width:0%;
+  background:linear-gradient(90deg,var(--green),var(--violet));
+  z-index:300;transition:width .05s linear;
+  box-shadow:0 0 8px rgba(0,255,136,.4);
+}
+</style>
 </head>
 <body>
+
+<!-- CURSOR -->
+<div id="cursor" aria-hidden="true"></div>
+<div id="cursor-ring" aria-hidden="true"></div>
 
 <!-- SCANLINES -->
 <div class="scanlines" aria-hidden="true"></div>
@@ -20,7 +41,6 @@
 <!-- ═══════ NAV ═══════ -->
 <nav>
   <div class="nav-logo">APEX<span class="dot">.</span></div>
-
   <ul class="nav-links">
     <li><a href="#experiencias">Experiencias</a></li>
     <li><a href="#programas">Programas</a></li>
@@ -28,30 +48,10 @@
     <li><a href="#academia">Academia</a></li>
     <li><a href="#cta">Contacto</a></li>
   </ul>
-
   <button class="nav-cta" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
     Inscribirme
-  </button>
-
-  <!-- Hamburger (mobile only) -->
-  <button class="nav-hamburger" aria-label="Abrir menú" aria-expanded="false">
-    <span></span>
-    <span></span>
-    <span></span>
   </button>
 </nav>
-
-<!-- Mobile menu -->
-<div class="nav-mobile" role="navigation" aria-label="Menú móvil">
-  <a href="#experiencias">Experiencias</a>
-  <a href="#programas">Programas</a>
-  <a href="#tecnologia">Simuladores</a>
-  <a href="#academia">Academia</a>
-  <a href="#cta">Contacto</a>
-  <button class="nav-cta" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
-    Inscribirme
-  </button>
-</div>
 
 <!-- ═══════ HERO ═══════ -->
 <section id="hero">
@@ -170,25 +170,34 @@
 
   <div class="exp-circuits reveal d1">
     <div class="exp-circuit">
-      <div class="exp-circuit-img" style="background-image:url('')">[ IMAGEN — TRAZADA PERFECTA ]</div>
-      <div class="exp-num">01</div>
-      <div class="exp-name">Trazada Perfecta</div>
-      <div class="exp-desc">Dominá la geometría de cada curva con telemetría en tiempo real. Aprendé el punto de entrada, el ápex y la salida como un piloto de fábrica.</div>
-      <div class="exp-tag">Técnica</div>
+      <div class="exp-circuit-img">[ IMAGEN — TRAZADA PERFECTA ]</div>
+      <div class="exp-circuit-sep"></div>
+      <div class="exp-circuit-body">
+        <div class="exp-num">01</div>
+        <div class="exp-name">Trazada Perfecta</div>
+        <div class="exp-desc">Dominá la geometría de cada curva con telemetría en tiempo real. Aprendé el punto de entrada, el ápex y la salida como un piloto de fábrica.</div>
+        <div class="exp-tag">Técnica</div>
+      </div>
     </div>
     <div class="exp-circuit">
-      <div class="exp-circuit-img" style="background-image:url('')">[ IMAGEN — GESTIÓN DE NEUMÁTICOS ]</div>
-      <div class="exp-num">02</div>
-      <div class="exp-name">Gestión de Neumáticos</div>
-      <div class="exp-desc">Aprendé a leer y administrar cada décima de desgaste como un profesional. La consistencia gana carreras.</div>
-      <div class="exp-tag">Estrategia</div>
+      <div class="exp-circuit-img">[ IMAGEN — GESTIÓN DE NEUMÁTICOS ]</div>
+      <div class="exp-circuit-sep"></div>
+      <div class="exp-circuit-body">
+        <div class="exp-num">02</div>
+        <div class="exp-name">Gestión de Neumáticos</div>
+        <div class="exp-desc">Aprendé a leer y administrar cada décima de desgaste como un profesional. La consistencia gana carreras.</div>
+        <div class="exp-tag">Estrategia</div>
+      </div>
     </div>
     <div class="exp-circuit">
-      <div class="exp-circuit-img" style="background-image:url('')">[ IMAGEN — CARRERA BAJO PRESIÓN ]</div>
-      <div class="exp-num">03</div>
-      <div class="exp-name">Carrera Bajo Presión</div>
-      <div class="exp-desc">Simulaciones de race-pace con adversarios y condiciones dinámicas. Mentalidad de campeón cuando más importa.</div>
-      <div class="exp-tag">Competencia</div>
+      <div class="exp-circuit-img">[ IMAGEN — CARRERA BAJO PRESIÓN ]</div>
+      <div class="exp-circuit-sep"></div>
+      <div class="exp-circuit-body">
+        <div class="exp-num">03</div>
+        <div class="exp-name">Carrera Bajo Presión</div>
+        <div class="exp-desc">Simulaciones de race-pace con adversarios y condiciones dinámicas. Mentalidad de campeón cuando más importa.</div>
+        <div class="exp-tag">Competencia</div>
+      </div>
     </div>
   </div>
 
@@ -321,12 +330,23 @@
 
 <!-- ═══════ ESTRUCTURA DEL SIMULADOR ═══════ -->
 <section id="estructura">
-  <div class="struct-header">
-    <div class="eyebrow reveal" style="justify-content:center">Ingeniería</div>
-    <h2 class="sec-title reveal d1" style="text-align:center">ESTRUCTURA DEL<br>SIMULADOR</h2>
-    <p class="sec-sub reveal d2" style="margin:0 auto;text-align:center">Cada componente fue elegido por su precisión, no por su precio. Así está construido un puesto APEX, pieza por pieza.</p>
+  <div class="struct-inner">
+    <div class="struct-header reveal">
+      <div class="eyebrow" style="justify-content:center">Simulador</div>
+      <h2 class="sec-title reveal d1" style="text-align:center">ESTRUCTURA<br>DEL <span class="t-green">SIMULADOR</span></h2>
+      <p class="sec-sub reveal d2">Ingeniería de competición. Cada componente diseñado para replicar con exactitud la física de un monoplaza real.</p>
+    </div>
+
+    <div class="struct-img-wrap reveal d2">
+      <div class="struct-corner-tr"></div>
+      <div class="struct-corner-bl"></div>
+      <div class="struct-img">[ IMAGEN GRANDE — ESTRUCTURA DEL SIMULADOR ]</div>
+      <div class="struct-label">
+        <span>APEX · SIM RIG — FULL MOTION 6DOF</span>
+        <span class="sl-tag">// VISTA TÉCNICA</span>
+      </div>
+    </div>
   </div>
-  <div class="struct-img reveal d2">[ IMAGEN GRANDE — DESPIECE / ESTRUCTURA COMPLETA DEL SIMULADOR ]</div>
 </section>
 
 <!-- ═══════ ACADEMIA F3 ═══════ -->
