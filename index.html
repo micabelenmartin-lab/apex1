@@ -18,32 +18,7 @@
 <!-- SCANLINES -->
 <div class="scanlines" aria-hidden="true"></div>
 
-<!-- SCROLL PROGRESS -->
-<div id="scroll-bar" aria-hidden="true"></div>
-
-<!-- ═══════ NAV ═══════ -->
-<nav>
-  <div class="nav-logo">APEX<span class="dot">.</span></div>
-  <ul class="nav-links" id="nav-links">
-    <li><a href="#experiencias">Experiencias</a></li>
-    <li><a href="#programas">Programas</a></li>
-    <li><a href="#tecnologia">Simuladores</a></li>
-    <li><a href="#academia">Academia</a></li>
-    <li><a href="#cta">Contacto</a></li>
-  </ul>
-  <!-- BUG FIX: botón hamburguesa agregado — faltaba en el HTML original -->
-  <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menú" aria-expanded="false">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
-  <button class="nav-cta" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
-    Inscribirme
-  </button>
-</nav>
-
-<!-- ═══════ HERO ═══════ -->
-<section id="hero">
+@@ -47,17 +43,8 @@
   <!-- Particle canvas -->
   <canvas id="particle-canvas" aria-hidden="true"></canvas>
 
@@ -56,310 +31,34 @@
     <div class="tel-item"><span class="lbl">Fuel</span>84.2%</div>
     <div class="tel-item"><span class="lbl">Gap</span>-0.342s</div>
   </div>
+    <div class="hero-grid">
 
   <div class="hero-grid">
     <!-- LEFT -->
     <div class="hero-left">
       <div class="hero-tag">Sim Racing Profesional</div>
-
-      <h1 class="hero-headline">
-        <span class="hl-white">CORRÉ</span><br>
-        <span class="hl-outline">PARA</span><br>
-        <span class="hl-green">GANAR</span>
-      </h1>
-
-      <p class="hero-body">
-        APEX no es un juego. Es el <strong>sistema de entrenamiento de sim racing más avanzado de Latinoamérica</strong>. Tecnología de pilotos reales. Metodología de élite. Resultados que se miden en el asfalto.
-      </p>
-
-      <div class="hero-actions">
-        <a href="#programas" class="btn-primary">Ver Programas</a>
-        <a href="#experiencias" class="btn-ghost"><span class="play">▶</span> Ver en Acción</a>
-      </div>
-    </div>
-
-    <!-- RIGHT -->
-    <div class="hero-right">
-      <div class="hero-img-frame">
-        <div class="hero-img-placeholder">
-          <div class="cbracket tl"></div>
-          <div class="cbracket tr"></div>
-          <div class="cbracket bl"></div>
-          <div class="cbracket br"></div>
-
-          <div class="hdo">
-            <div class="hdo-row">
-              <span>PILOT CAM</span>
-              <span class="hdo-val" style="display:flex;align-items:center;gap:.4rem">
-                <span class="tel-dot" style="width:5px;height:5px"></span>REC
-              </span>
-            </div>
-            <div class="hdo-row">
-              <span>SPEED</span>
-              <span class="hdo-val" id="hero-speed">278 km/h</span>
-            </div>
-            <div class="hdo-row">
-              <span>THROTTLE</span>
-              <span class="hdo-val violet">97%</span>
-            </div>
-            <div class="hdo-row">
-              <span>BRAKE</span>
-              <span class="hdo-val">0%</span>
-            </div>
-          </div>
-
-          <!-- Circuit SVG decorative -->
-          <svg width="140" height="100" viewBox="0 0 140 100" fill="none"
-               aria-hidden="true"
-               style="position:relative;z-index:1;opacity:.2;margin-top:3rem">
-            <path d="M12 80 Q35 22 70 18 Q105 14 128 80" stroke="#00ff88" stroke-width="1.5" fill="none" stroke-dasharray="4 2"/>
-            <circle cx="70" cy="18" r="4" fill="none" stroke="#bf5fff" stroke-width="1.5"/>
-            <circle cx="70" cy="18" r="1.5" fill="#bf5fff"/>
-          </svg>
-          <p style="font-family:var(--ff-mono);font-size:.55rem;color:#1e1e1e;position:relative;z-index:1;letter-spacing:.1em">[ FOTO / VIDEO DEL PILOTO ]</p>
-        </div>
-        <div class="rpm-bar" aria-hidden="true"><div class="rpm-fill"></div></div>
-      </div>
-    </div>
+@@ -266,6 +253,20 @@
   </div>
 </section>
 
-<!-- ═══════ TICKER ═══════ -->
-<div class="ticker-wrapper" aria-hidden="true">
-  <div class="ticker-inner">
-    <div class="ticker-item"><span class="dot">●</span>SIM RACING PROFESIONAL</div>
-    <div class="ticker-item"><span class="vdot">●</span>FIA CERTIFIED TRAINING</div>
-    <div class="ticker-item"><span class="dot">●</span>TECNOLOGÍA DE FÁBRICA</div>
-    <div class="ticker-item"><span class="vdot">●</span>METODOLOGÍA DE PILOTOS REALES</div>
-    <div class="ticker-item"><span class="dot">●</span>LATINOAMÉRICA</div>
-    <div class="ticker-item"><span class="vdot">●</span>ACADEMY 2027 · F3 PIPELINE</div>
-    <div class="ticker-item"><span class="dot">●</span>APEX · CORRÉ PARA GANAR</div>
-    <!-- Duplicate for seamless loop -->
-    <div class="ticker-item"><span class="dot">●</span>SIM RACING PROFESIONAL</div>
-    <div class="ticker-item"><span class="vdot">●</span>FIA CERTIFIED TRAINING</div>
-    <div class="ticker-item"><span class="dot">●</span>TECNOLOGÍA DE FÁBRICA</div>
-    <div class="ticker-item"><span class="vdot">●</span>METODOLOGÍA DE PILOTOS REALES</div>
-    <div class="ticker-item"><span class="dot">●</span>LATINOAMÉRICA</div>
-    <div class="ticker-item"><span class="vdot">●</span>ACADEMY 2027 · F3 PIPELINE</div>
-    <div class="ticker-item"><span class="dot">●</span>APEX · CORRÉ PARA GANAR</div>
-  </div>
-</div>
 
-<!-- ═══════ EXPERIENCIAS ═══════ -->
-<section id="experiencias">
-  <div class="exp-header">
-    <div>
-      <div class="eyebrow reveal">Experiencias</div>
-      <h2 class="sec-title reveal d1">ELIGE TU<br>CIRCUITO</h2>
-    </div>
-    <p class="sec-sub reveal d2">
-      Tres mundos de velocidad. Un solo lugar donde perfeccionarlos. Cada modalidad tiene su propia curva de aprendizaje — y su propia adrenalina.
-    </p>
-  </div>
+<!-- ═══════ NUESTROS SIMULADORES ═══════ -->
+<section id="simuladores-showcase">
+  <div class="eyebrow reveal">Nuestros Simuladores</div>
+  <h2 class="sec-title reveal d1">CONOCÉ LA<br>EXPERIENCIA</h2>
+  <p class="sec-sub reveal d2">
+    Mostrá acá un video onboard, recorrido 360° o imágenes de los simuladores.
+  </p>
 
-  <!-- BUG FIX: estructura de exp-circuit corregida para que coincida con el CSS.
-       El CSS espera .exp-circuit-img y .exp-circuit-body como hijos directos.
-       El HTML original tenía .exp-num, .exp-name, etc. sueltos sin ese wrapper,
-       lo que rompía todos los estilos de hover (imagen, overlay, borde inferior). -->
-  <div class="exp-circuits reveal d1">
-    <div class="exp-circuit">
-      <div class="exp-circuit-img">[ FOTO — TRAZADA ]</div>
-      <div class="exp-circuit-body">
-        <div class="exp-num">01</div>
-        <div class="exp-name">Trazada Perfecta</div>
-        <div class="exp-desc">Dominá la geometría de cada curva con telemetría en tiempo real. Aprendé el punto de entrada, el ápex y la salida como un piloto de fábrica.</div>
-        <div class="exp-tag">Técnica</div>
-      </div>
-    </div>
-    <div class="exp-circuit">
-      <div class="exp-circuit-img">[ FOTO — NEUMÁTICOS ]</div>
-      <div class="exp-circuit-body">
-        <div class="exp-num">02</div>
-        <div class="exp-name">Gestión de Neumáticos</div>
-        <div class="exp-desc">Aprendé a leer y administrar cada décima de desgaste como un profesional. La consistencia gana carreras.</div>
-        <div class="exp-tag">Estrategia</div>
-      </div>
-    </div>
-    <div class="exp-circuit">
-      <div class="exp-circuit-img">[ FOTO — CARRERA ]</div>
-      <div class="exp-circuit-body">
-        <div class="exp-num">03</div>
-        <div class="exp-name">Carrera Bajo Presión</div>
-        <div class="exp-desc">Simulaciones de race-pace con adversarios y condiciones dinámicas. Mentalidad de campeón cuando más importa.</div>
-        <div class="exp-tag">Competencia</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="media-strip reveal d2">
-    <div class="media-ph">[ FOTO / VIDEO — SESIÓN ONBOARD ]</div>
-    <div class="media-ph">[ FOTO / VIDEO — COCKPIT EXPERIENCE ]</div>
-  </div>
-</section>
-
-<!-- ═══════ PROGRAMAS ═══════ -->
-<section id="programas">
-  <div class="prog-header">
-    <div>
-      <div class="eyebrow reveal">Programas</div>
-      <h2 class="sec-title reveal d1">ELIGE TU<br>NIVEL</h2>
-    </div>
-    <p class="sec-sub reveal d2">Cada programa está diseñado por ex-pilotos de categorías internacionales. No hay atajos. Hay método.</p>
-  </div>
-
-  <div class="prog-cards">
-
-    <!-- ENTRY -->
-    <div class="prog-card reveal">
-      <div class="prog-glow"></div>
-      <span class="prog-badge b-default">NIVEL 01</span>
-      <div class="prog-name">ENTRY</div>
-      <p class="prog-tagline">Para pilotos que comienzan a tomarse en serio el sim</p>
-      <hr class="prog-divider">
-      <ul class="prog-features">
-        <li>Introducción a telemetría y análisis de vueltas</li>
-        <li>4 sesiones de 90 min en simulador</li>
-        <li>Setup básico de volante y pedales</li>
-        <li>Informe de evolución al cierre</li>
-      </ul>
-      <div class="prog-price">$290</div>
-      <div class="prog-period">/ programa</div>
-      <a href="#cta" class="prog-cta">Comenzar →</a>
-    </div>
-
-    <!-- PRO -->
-    <div class="prog-card featured reveal d1">
-      <div class="prog-glow"></div>
-      <span class="prog-badge b-featured">NIVEL 02 · MÁS POPULAR</span>
-      <div class="prog-name">PRO</div>
-      <p class="prog-tagline">El camino real de quienes apuntan a competir</p>
-      <hr class="prog-divider">
-      <ul class="prog-features">
-        <li>8 sesiones de 2 hs con coach dedicado</li>
-        <li>Análisis comparativo por sectores y datos de F1</li>
-        <li>Psicología del piloto y gestión mental de carrera</li>
-        <li>Acceso prioritario a eventos y campeonatos APEX</li>
-      </ul>
-      <div class="prog-price">$590</div>
-      <div class="prog-period">/ programa</div>
-      <a href="#cta" class="prog-cta cta-featured">Comenzar →</a>
-    </div>
-
-    <!-- ELITE -->
-    <div class="prog-card elite-card reveal d2">
-      <div class="prog-glow"></div>
-      <span class="prog-badge b-elite">NIVEL 03 · ELITE</span>
-      <div class="prog-name">ELITE</div>
-      <p class="prog-tagline">Entrenamiento sin límites. Solo para los más comprometidos</p>
-      <hr class="prog-divider">
-      <ul class="prog-features">
-        <li>Acceso ilimitado por 30 días a todos los simuladores</li>
-        <li>Coach personal con ex-piloto profesional</li>
-        <li>Telemetría avanzada + análisis de video onboard</li>
-        <li>Programa de nutrición y preparación física para pilotos</li>
-      </ul>
-      <div class="prog-price">$990</div>
-      <div class="prog-period">/ mes</div>
-      <a href="#cta" class="prog-cta cta-elite">Comenzar →</a>
-    </div>
-
+  <div class="sim-showcase-media reveal d3">
+    [ VIDEO O IMAGEN PRINCIPAL DEL SIMULADOR ]
   </div>
 </section>
 
 <!-- ═══════ TECNOLOGIA ═══════ -->
 <section id="tecnologia">
   <div class="tech-header">
-    <div class="eyebrow reveal" style="justify-content:center">Tecnología</div>
-    <h2 class="sec-title reveal d1" style="text-align:center">HARDWARE DE<br>NIVEL MUNDIAL</h2>
-    <p class="sec-sub reveal d2">Los mismos sistemas que usan los equipos de fábrica. Sin compromisos.</p>
-  </div>
-
-  <div class="tech-grid reveal d2">
-    <div class="tech-item">
-      <div class="tech-num">01</div>
-      <div>
-        <div class="tech-name">Movimiento de 6 Ejes DOF</div>
-        <p class="tech-desc">Plataformas de movimiento hexapodales que replican cada transferencia de peso, cada vibración de pavimento y cada reacción aerodinámica con precisión milimétrica.</p>
-        <div class="tech-tag">Inmersión Total</div>
-      </div>
-    </div>
-    <div class="tech-item">
-      <div class="tech-num">02</div>
-      <div>
-        <div class="tech-name">Volantes Direct Drive</div>
-        <p class="tech-desc">Torque de hasta 25 Nm. La retroalimentación de fuerza más fiel del mercado. Sentís el límite del agarre antes de perderlo, exactamente como en pista.</p>
-        <div class="tech-tag">Feedback Real</div>
-      </div>
-    </div>
-    <div class="tech-item">
-      <div class="tech-num">03</div>
-      <div>
-        <div class="tech-name">Pedales de Carga Celda</div>
-        <p class="tech-desc">Control de frenada basado en presión, no en recorrido. La misma curva de respuesta de los monoplazas de competición. Consistencia repetible, vuelta a vuelta.</p>
-        <div class="tech-tag">Control Absoluto</div>
-      </div>
-    </div>
-    <div class="tech-item">
-      <div class="tech-num">04</div>
-      <div>
-        <div class="tech-name">Visión Triple Pantalla + VR</div>
-        <p class="tech-desc">Configuración triple 4K de 55" o inmersión completa en VR de última generación. El campo visual correcto cambia la percepción de velocidad y la trazada para siempre.</p>
-        <div class="tech-tag">Visión Sin Límites</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="tech-media reveal d3">
-    <div class="tech-ph-main">[ FOTO PRINCIPAL — SALA DE SIMULADORES ]</div>
-    <div class="tech-ph-col">
-      <div class="tech-ph-sm">[ DETALLE<br>VOLANTE ]</div>
-      <div class="tech-ph-sm">[ VR<br>HEADSET ]</div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════ ACADEMIA F3 ═══════ -->
-<section id="academia">
-  <div class="academy-inner">
-    <div class="academy-left">
-      <div class="year-badge reveal"><span class="yr">2027</span> PRÓXIMAMENTE</div>
-      <div class="eyebrow reveal">Academia de Talentos</div>
-      <h2 class="sec-title reveal d1">DEL SIM<br>A LA PISTA<br><span class="t-green">REAL</span></h2>
-      <p class="sec-sub reveal d2">
-        En 2026, la FIA validó las competencias virtuales. Los equipos de Fórmula buscan talentos en los simuladores. APEX cierra convenios con equipos de <span class="t-violet">Fórmula 3</span> para 2027 — tus vueltas acá son tu prueba de ingreso.
-      </p>
-    </div>
-
-    <div class="pipeline-box reveal-r d1">
-      <div class="pipeline-step">
-        <div class="p-icon">01</div>
-        <div>
-          <div class="p-title">Entrenamiento APEX</div>
-          <div class="p-desc">Perfeccionás técnica, telemetría y mentalidad competitiva en nuestros simuladores de élite.</div>
-        </div>
-      </div>
-      <div class="pipeline-step">
-        <div class="p-icon">02</div>
-        <div>
-          <div class="p-title">Selección Interna</div>
-          <div class="p-desc">Los mejores tiempos y la consistencia determinan los pilotos elegibles para el pipeline.</div>
-        </div>
-      </div>
-      <div class="pipeline-step">
-        <div class="p-icon">03</div>
-        <div>
-          <div class="p-title">Evaluación F3 — 2027</div>
-          <div class="p-desc">Convenios con equipos internacionales de Fórmula 3. Tus métricas de sim hablan por vos.</div>
-        </div>
-      </div>
-      <div class="pipeline-step p-final">
-        <div class="p-icon">→</div>
-        <div>
-          <div class="p-title">Test en Pista Real</div>
-          <div class="p-desc">El simulador fue el boleto. La pista es el destino.</div>
-        </div>
-      </div>
-    </div>
+@@ -363,93 +364,42 @@
   </div>
 </section>
 
