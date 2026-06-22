@@ -2,6 +2,8 @@
    APEX SIM RACING — main.js
 ═══════════════════════════════════════════ */
 
+document.documentElement.classList.replace('no-js', 'js');
+
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ── CUSTOM CURSOR ── */
@@ -139,6 +141,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, { threshold: 0.1 });
   revEls.forEach(el => io.observe(el));
+
+  /* Safety net: if something prevents the observer from firing
+     (unsupported browser, odd layout), make sure content isn't
+     stuck invisible forever. */
+  setTimeout(() => {
+    revEls.forEach(el => el.classList.add('visible'));
+  }, 4000);
 
   /* ── PARALLAX HERO HEADLINE ── */
   const headline = document.querySelector('.hero-headline');
