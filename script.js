@@ -5,23 +5,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ── CUSTOM CURSOR (Versión Simple) ── */
-  const cursor = document.getElementById('cursor');
-  
-  // Actualización inmediata de la posición del cursor
-  document.addEventListener('mousemove', e => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top  = e.clientY + 'px';
-  });
-
-  // Ocultar cursor al salir de la ventana
-  document.addEventListener('mouseleave', () => {
-    cursor.style.opacity = '0';
-  });
-  
-  document.addEventListener('mouseenter', () => {
-    cursor.style.opacity = '1';
-  });
+ 
 
   /* ── PARTICLE CANVAS ── */
   const canvas = document.getElementById('particle-canvas');
@@ -267,3 +251,5 @@ passive:true
 console.log(
 'APEX NEXT LEVEL ACTIVE'
 );
+
+});
