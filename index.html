@@ -9,7 +9,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700;1,900&family=Barlow:wght@300;400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="no-scroll">
+
+<!-- ═══════ LOADER ═══════ -->
+<div id="loader">
+  <div class="loader-logo">APEX<span class="loader-dot">.</span></div>
+  <div class="loader-bar-wrap" aria-hidden="true"><div class="loader-bar"></div></div>
+</div>
 
 <!-- CURSOR -->
 <div id="cursor" aria-hidden="true"></div>
@@ -31,7 +37,6 @@
     <li><a href="#academia">Academia</a></li>
     <li><a href="#cta">Contacto</a></li>
   </ul>
-  <!-- BUG FIX: botón hamburguesa agregado — faltaba en el HTML original -->
   <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menú" aria-expanded="false">
     <span></span>
     <span></span>
@@ -44,8 +49,10 @@
 
 <!-- ═══════ HERO ═══════ -->
 <section id="hero">
-  <!-- Particle canvas -->
- 
+  <video class="hero-bg-video" autoplay muted loop playsinline aria-hidden="true">
+    <source src="video1.mp4" type="video/mp4">
+  </video>
+  <div class="hero-bg-overlay" aria-hidden="true"></div>
 
   <!-- Telemetry bar -->
   <div class="hero-telemetry-bar" aria-hidden="true">
@@ -82,6 +89,8 @@
     <div class="hero-right">
       <div class="hero-img-frame">
         <div class="hero-img-placeholder">
+          <img src="foto1.png" alt="Piloto APEX en acción" class="hero-img-real">
+
           <div class="cbracket tl"></div>
           <div class="cbracket tr"></div>
           <div class="cbracket bl"></div>
@@ -108,7 +117,6 @@
             </div>
           </div>
 
-          <!-- Circuit SVG decorative -->
           <svg width="140" height="100" viewBox="0 0 140 100" fill="none"
                aria-hidden="true"
                style="position:relative;z-index:1;opacity:.2;margin-top:3rem">
@@ -116,7 +124,6 @@
             <circle cx="70" cy="18" r="4" fill="none" stroke="#bf5fff" stroke-width="1.5"/>
             <circle cx="70" cy="18" r="1.5" fill="#bf5fff"/>
           </svg>
-          <p style="font-family:var(--ff-mono);font-size:.55rem;color:#1e1e1e;position:relative;z-index:1;letter-spacing:.1em">[ FOTO / VIDEO DEL PILOTO ]</p>
         </div>
         <div class="rpm-bar" aria-hidden="true"><div class="rpm-fill"></div></div>
       </div>
@@ -134,7 +141,6 @@
     <div class="ticker-item"><span class="dot">●</span>LATINOAMÉRICA</div>
     <div class="ticker-item"><span class="vdot">●</span>ACADEMY 2027 · F3 PIPELINE</div>
     <div class="ticker-item"><span class="dot">●</span>APEX · CORRÉ PARA GANAR</div>
-    <!-- Duplicate for seamless loop -->
     <div class="ticker-item"><span class="dot">●</span>SIM RACING PROFESIONAL</div>
     <div class="ticker-item"><span class="vdot">●</span>FIA CERTIFIED TRAINING</div>
     <div class="ticker-item"><span class="dot">●</span>TECNOLOGÍA DE FÁBRICA</div>
@@ -147,49 +153,64 @@
 
 <!-- ═══════ EXPERIENCIAS ═══════ -->
 <section id="experiencias">
-  <div class="exp-header">
-    <div>
-      <div class="eyebrow reveal">Experiencias</div>
-      <h2 class="sec-title reveal d1">ELIGE TU<br>CIRCUITO</h2>
+  <div class="exp-header exp-header-centered">
+    <div class="eyebrow reveal" style="justify-content:center">Experiencias</div>
+
+    <!-- ── HEADING ANIMADO ── -->
+    <div class="exp-headline-wrap reveal d1" aria-label="Elige tu circuito">
+      <div class="exp-type-line" id="exp-headline-line">
+        <span class="exp-letter" data-delay="80">E</span>
+        <span class="exp-letter" data-delay="120">L</span>
+        <span class="exp-letter" data-delay="160">I</span>
+        <span class="exp-letter" data-delay="200">G</span>
+        <span class="exp-letter" data-delay="240">E</span>
+        <span class="exp-letter exp-gap" aria-hidden="true"> </span>
+        <span class="exp-letter" data-delay="300">T</span>
+        <span class="exp-letter" data-delay="340">U</span>
+        <span class="exp-letter exp-gap" aria-hidden="true"> </span>
+        <span class="exp-letter" data-delay="400">C</span>
+        <span class="exp-letter" data-delay="440">I</span>
+        <span class="exp-letter" data-delay="480">R</span>
+        <span class="exp-letter" data-delay="520">C</span>
+        <span class="exp-letter" data-delay="560">U</span>
+        <span class="exp-letter" data-delay="600">I</span>
+        <span class="exp-letter" data-delay="640">T</span>
+        <span class="exp-letter" data-delay="680">O</span>
+      </div>
     </div>
-    <p class="sec-sub reveal d2">
-      Tres mundos de velocidad. Un solo lugar donde perfeccionarlos. Cada modalidad tiene su propia curva de aprendizaje — y su propia adrenalina.
-    </p>
+    <!-- ── FIN HEADING ANIMADO ── -->
+
   </div>
 
-  <!-- BUG FIX: estructura de exp-circuit corregida para que coincida con el CSS.
-       El CSS espera .exp-circuit-img y .exp-circuit-body como hijos directos.
-       El HTML original tenía .exp-num, .exp-name, etc. sueltos sin ese wrapper,
-       lo que rompía todos los estilos de hover (imagen, overlay, borde inferior). -->
   <div class="exp-circuits reveal d1">
     <div class="exp-circuit">
-      <div class="exp-circuit-img">[ FOTO — TRAZADA ]</div>
+      <div class="exp-circuit-img" style="background-image:url('foto2.png')"></div>
       <div class="exp-circuit-body">
         <div class="exp-num">01</div>
         <div class="exp-name">Trazada Perfecta</div>
         <div class="exp-desc">Dominá la geometría de cada curva con telemetría en tiempo real. Aprendé el punto de entrada, el ápex y la salida como un piloto de fábrica.</div>
-        <div class="exp-tag">Técnica</div>
       </div>
     </div>
     <div class="exp-circuit">
-      <div class="exp-circuit-img">[ FOTO — NEUMÁTICOS ]</div>
+      <div class="exp-circuit-img" style="background-image:url('foto3.png')"></div>
       <div class="exp-circuit-body">
         <div class="exp-num">02</div>
         <div class="exp-name">Gestión de Neumáticos</div>
         <div class="exp-desc">Aprendé a leer y administrar cada décima de desgaste como un profesional. La consistencia gana carreras.</div>
-        <div class="exp-tag">Estrategia</div>
       </div>
     </div>
     <div class="exp-circuit">
-      <div class="exp-circuit-img">[ FOTO — CARRERA ]</div>
+      <div class="exp-circuit-img" style="background-image:url('foto4.png')"></div>
       <div class="exp-circuit-body">
         <div class="exp-num">03</div>
         <div class="exp-name">Carrera Bajo Presión</div>
         <div class="exp-desc">Simulaciones de race-pace con adversarios y condiciones dinámicas. Mentalidad de campeón cuando más importa.</div>
-        <div class="exp-tag">Competencia</div>
       </div>
     </div>
   </div>
+
+  <!-- DOTS carrusel circuitos -->
+  <div class="exp-carousel-dots" aria-hidden="true"></div>
 
   <div class="media-strip reveal d2">
     <div class="media-ph">[ FOTO / VIDEO — SESIÓN ONBOARD ]</div>
@@ -263,6 +284,29 @@
       <a href="#cta" class="prog-cta cta-elite">Comenzar →</a>
     </div>
 
+  </div>
+
+  <!-- DOTS carrusel programas -->
+  <div class="prog-carousel-dots" aria-hidden="true"></div>
+
+</section>
+
+
+<!-- ═══════ SIMULADOR ═══════ -->
+<section id="simulador">
+  <div class="sim-header">
+    <div class="eyebrow reveal" style="justify-content:center">El Equipo</div>
+    <h2 class="sec-title reveal d1" style="text-align:center">EL SIMULADOR<br><span class="t-green">POR DENTRO</span></h2>
+  </div>
+
+  <div class="sim-reveal-wrap reveal d2" id="sim-wrap">
+    <img src="foto5.png" alt="Simulador APEX" class="sim-base-img" draggable="false">
+    <div class="sim-lens" id="sim-lens" aria-hidden="true">
+      <div class="sim-lens-inner" id="sim-lens-inner"></div>
+    </div>
+    <div class="sim-overlay-text" aria-hidden="true">
+      <span class="sim-hint">// PASÁ EL CURSOR</span>
+    </div>
   </div>
 </section>
 
@@ -363,57 +407,6 @@
   </div>
 </section>
 
-<!-- ═══════ PILOTOS / TESTIMONIOS ═══════ -->
-<section id="pilotos">
-  <div>
-    <div class="eyebrow reveal">Pilotos APEX</div>
-    <h2 class="sec-title reveal d1">LO QUE<br>DICEN</h2>
-  </div>
-
-  <div class="testi-grid">
-    <div class="testi-card reveal">
-      <div class="testi-prog">PROGRAMA PRO</div>
-      <p class="testi-q">Vine sin saber leer una curva de telemetría. Tres meses después bajé 1.8 segundos por vuelta. APEX cambió la forma en que veo una pista.</p>
-      <div class="testi-author">
-        <div class="testi-av">MR</div>
-        <div>
-          <div class="testi-name">Mateo Rodríguez</div>
-          <div class="testi-role">Piloto · Buenos Aires</div>
-        </div>
-      </div>
-    </div>
-    <div class="testi-card reveal d1">
-      <div class="testi-prog">PROGRAMA ELITE</div>
-      <p class="testi-q">El análisis comparativo con datos de F1 reales me abrió la cabeza. Ahora entiendo qué hace la diferencia en cada sector. El método APEX es otro nivel.</p>
-      <div class="testi-author">
-        <div class="testi-av">SV</div>
-        <div>
-          <div class="testi-name">Sofía Vega</div>
-          <div class="testi-role">Piloto · Córdoba</div>
-        </div>
-      </div>
-    </div>
-    <div class="testi-card reveal d2">
-      <div class="testi-prog">PROGRAMA ENTRY</div>
-      <p class="testi-q">Empecé con el Entry y ya estoy en PRO. La plataforma de 6 ejes no tiene comparación — cuando subí a un auto real, todo me resultó familiar.</p>
-      <div class="testi-author">
-        <div class="testi-av">LP</div>
-        <div>
-          <div class="testi-name">Lucas Peralta</div>
-          <div class="testi-role">Piloto · Rosario</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="pilots-strip reveal d2">
-    <div class="pilot-ph">[ FOTO PILOTO 1 ]</div>
-    <div class="pilot-ph">[ FOTO PILOTO 2 ]</div>
-    <div class="pilot-ph">[ FOTO PILOTO 3 ]</div>
-    <div class="pilot-ph">[ FOTO SESIÓN ]</div>
-  </div>
-</section>
-
 <!-- ═══════ CTA ═══════ -->
 <section id="cta">
   <div class="cta-bg-text" aria-hidden="true">APEX</div>
@@ -451,5 +444,73 @@
 </footer>
 
 <script src="script.js"></script>
+
+<!-- ═══════ SCRIPT: LOADER ═══════ -->
+<script>
+(function(){
+  var loader = document.getElementById('loader');
+  var bar = document.querySelector('.loader-bar');
+  var progress = 0;
+  var interval = setInterval(function(){
+    progress += Math.random() * 18 + 6;
+    if(progress >= 100){
+      progress = 100;
+      clearInterval(interval);
+      bar.style.width = '100%';
+      setTimeout(function(){
+        loader.classList.add('loader-out');
+        setTimeout(function(){
+          loader.style.display = 'none';
+          document.body.classList.remove('no-scroll');
+        }, 700);
+      }, 300);
+    } else {
+      bar.style.width = progress + '%';
+    }
+  }, 120);
+})();
+</script>
+
+<!-- ═══════ SCRIPT: HEADING ANIMADO EXPERIENCIAS ═══════ -->
+<script>
+(function(){
+  function fitExpHeadline(){
+    var line = document.getElementById('exp-headline-line');
+    if(!line) return;
+    var section = document.getElementById('experiencias');
+    var style = section ? window.getComputedStyle(section) : null;
+    var padL = style ? parseFloat(style.paddingLeft) : 48;
+    var padR = style ? parseFloat(style.paddingRight) : 48;
+    var w = (section ? section.offsetWidth : line.parentElement.offsetWidth) - padL - padR;
+    var fs = 10;
+    line.style.fontSize = fs + 'px';
+    while(line.scrollWidth <= w && fs < 800){
+      fs += 2;
+      line.style.fontSize = fs + 'px';
+    }
+    line.style.fontSize = (fs - 2) + 'px';
+  }
+
+  fitExpHeadline();
+  window.addEventListener('resize', fitExpHeadline);
+
+  var triggered = false;
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting && !triggered){
+        triggered = true;
+        document.querySelectorAll('.exp-letter[data-delay]').forEach(function(el){
+          var delay = parseInt(el.dataset.delay) || 0;
+          setTimeout(function(){ el.classList.add('exp-letter-animate'); }, delay);
+        });
+      }
+    });
+  }, { threshold: 0.2 });
+
+  var wrap = document.querySelector('.exp-headline-wrap');
+  if(wrap) observer.observe(wrap);
+})();
+</script>
+
 </body>
 </html>
