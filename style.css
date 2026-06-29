@@ -31,6 +31,46 @@ body{
   font-family:var(--ff-body);font-size:16px;line-height:1.6;
   overflow-x:hidden;
 }
+body.no-scroll{overflow:hidden}
+
+/* ── LOADER ── */
+#loader{
+  position:fixed;inset:0;z-index:99999;
+  background:var(--black);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;
+  transition:opacity .7s ease, transform .7s ease;
+}
+#loader.loader-out{
+  opacity:0;
+  transform:translateY(-8px);
+  pointer-events:none;
+}
+.loader-logo{
+  font-family:var(--ff-display);font-weight:900;font-style:italic;
+  font-size:clamp(3.5rem,10vw,7rem);
+  letter-spacing:.06em;color:var(--white);
+  display:flex;align-items:center;
+  animation:loaderPulse 1.8s ease-in-out infinite;
+}
+.loader-dot{
+  color:var(--green);
+  text-shadow:0 0 30px rgba(0,255,136,.6);
+}
+@keyframes loaderPulse{
+  0%,100%{opacity:1}
+  50%{opacity:.5}
+}
+.loader-bar-wrap{
+  width:160px;height:2px;
+  background:rgba(255,255,255,.08);
+  overflow:hidden;
+}
+.loader-bar{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,var(--green),var(--violet));
+  transition:width .15s ease;
+  box-shadow:0 0 8px rgba(0,255,136,.4);
+}
 a{color:inherit;text-decoration:none}
 button{cursor:pointer}
 img{max-width:100%;height:auto;display:block}
@@ -39,8 +79,6 @@ img{max-width:100%;height:auto;display:block}
 ::-webkit-scrollbar-thumb{background:var(--green)}
 
 /* ── CURSOR ── */
-/* BUG FIX: #cursor no tenía estilos. El JS lo mueve con left/top
-   pero sin position:fixed y sin dimensiones era invisible. */
 #cursor{
   position:fixed;width:6px;height:6px;border-radius:50%;
   background:var(--green);z-index:9999;pointer-events:none;
@@ -74,9 +112,7 @@ body:has(button:hover) #cursor-ring{
   );
 }
 
-/* ── SCROLL PROGRESS ──
-   BUG FIX: estaba duplicado en <style> inline del HTML y acá.
-   Se eliminó el bloque inline del HTML y se deja sólo este. */
+/* ── SCROLL PROGRESS ── */
 #scroll-bar{
   position:fixed;top:56px;left:0;height:2px;width:0%;
   background:linear-gradient(90deg,var(--green),var(--violet));
@@ -127,7 +163,6 @@ nav{
   background:var(--green);color:var(--black);
   box-shadow:0 0 28px rgba(0,255,136,.4);
 }
-/* ── Mobile Nav Toggle ── */
 .nav-toggle{
   display:none;flex-direction:column;gap:5px;
   background:none;border:none;padding:4px;
@@ -166,8 +201,6 @@ nav{
   flex:1;padding-top:90px;align-items:center;gap:4rem;
   position:relative;z-index:1;
 }
-/* BUG FIX: .hero-left no tenía estilos — se agrega para que el contenido
-   del lado izquierdo del grid se comporte correctamente. */
 .hero-left{
   display:flex;flex-direction:column;justify-content:center;
 }
@@ -247,6 +280,18 @@ nav{
   content:'';position:absolute;inset:0;
   background:repeating-linear-gradient(0deg,transparent,transparent 48px,rgba(0,255,136,.025) 48px,rgba(0,255,136,.025) 49px);
 }
+.hero-img-real{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;
+}
+.hero-bg-video{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;z-index:0;
+  opacity:.3;filter:saturate(.6) brightness(.7) blur(1px);
+}
+.hero-bg-overlay{
+  position:absolute;inset:0;z-index:0;
+  background:linear-gradient(180deg,rgba(5,5,5,.75) 0%,rgba(5,5,5,.55) 45%,rgba(5,5,5,.85) 100%);
+}
 .hdo{position:absolute;top:1rem;left:1rem;right:1rem;display:flex;flex-direction:column;gap:.5rem;pointer-events:none;z-index:2}
 .hdo-row{display:flex;justify-content:space-between;font-family:var(--ff-mono);font-size:.55rem;color:var(--muted)}
 .hdo-val{color:var(--green)}
@@ -296,30 +341,90 @@ section{padding:7rem 3rem}
 .t-outline{-webkit-text-stroke:1.5px var(--white);color:transparent}
 
 /* ══════════════════════════════
-   EXPERIENCIAS — Columnas verticales
+   EXPERIENCIAS — Heading animado
+══════════════════════════════ */
+.exp-header-centered{
+  grid-template-columns:1fr !important;
+  text-align:center;
+  max-width:100%;
+}
+.exp-header-centered .eyebrow{justify-content:center}
+
+/* Wrapper: arranca oculto y desplazado, sube al hacer scroll */
+.exp-headline-wrap{
+  width:100%;
+  overflow:hidden;
+  margin-bottom:1.5rem;
+  padding:0;
+  opacity:0;
+  transform:translateY(52px);
+  transition:opacity 0.75s cubic-bezier(0.22,1,0.36,1),
+              transform 0.75s cubic-bezier(0.22,1,0.36,1);
+}
+.exp-headline-wrap.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.exp-type-line{
+  display:flex;
+  width:100%;
+  justify-content:space-between;
+  align-items:baseline;
+  line-height:.82;
+  white-space:nowrap;
+}
+
+/* Letras siempre visibles — el efecto lo maneja el wrapper */
+.exp-letter{
+  font-family:var(--ff-display);
+  font-weight:900;
+  font-style:italic;
+  text-transform:uppercase;
+  color:var(--white);
+  display:inline-block;
+  flex:1;
+  text-align:center;
+  opacity:1;
+  transform:none;
+  cursor:default;
+  user-select:none;
+  transition:color .2s, text-shadow .2s;
+}
+
+.exp-letter.exp-gap{
+  flex:.55;
+  pointer-events:none;
+}
+
+.exp-letter:not(.exp-gap):hover{
+  color:var(--green);
+  text-shadow:0 0 50px rgba(0,255,136,.5);
+}
+
+/* clase legacy — ya no hace nada */
+.exp-letter.exp-letter-animate{}
+
+/* ══════════════════════════════
+   EXPERIENCIAS — Layout
 ══════════════════════════════ */
 #experiencias{background:var(--black);border-top:1px solid #111}
 .exp-header{
   display:grid;grid-template-columns:1fr 1fr;gap:4rem;
   align-items:end;margin-bottom:4rem;
 }
-/* Grid 3 columnas verticales tipo card */
 .exp-circuits{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:1px;background:#111;
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:#111;margin-bottom:4rem;
 }
 .exp-circuit{
   display:flex;flex-direction:column;
   min-height:520px;
   background:var(--black);position:relative;overflow:hidden;
-  border-bottom:3px solid transparent;
-  transition:border-color .4s;
+  border-bottom:3px solid transparent;transition:border-color .4s;
 }
-/* Zona de imagen superior — ocupa ~60% */
 .exp-circuit-img{
-  flex:0 0 60%;
-  background:#0d0d0d;
+  flex:0 0 60%;background:#0d0d0d;
   background-size:cover;background-position:center;
   display:flex;align-items:center;justify-content:center;
   font-family:var(--ff-mono);font-size:.55rem;color:#2a2a2a;
@@ -331,11 +436,9 @@ section{padding:7rem 3rem}
   background:linear-gradient(to bottom,rgba(0,0,0,.1) 0%,rgba(5,5,5,.85) 100%);
 }
 .exp-circuit:hover .exp-circuit-img{transform:scale(1.03)}
-/* Contenido inferior */
 .exp-circuit-body{
   flex:1;display:flex;flex-direction:column;justify-content:flex-end;
-  padding:2rem 1.8rem 2rem;
-  position:relative;
+  padding:2rem 1.8rem 2rem;position:relative;
 }
 .exp-circuit-body::before{
   content:'';position:absolute;left:0;top:0;right:0;bottom:0;
@@ -368,8 +471,6 @@ section{padding:7rem 3rem}
 }
 .exp-circuit:hover .exp-tag{border-color:var(--violet);color:var(--violet);box-shadow:0 0 8px rgba(191,95,255,.2)}
 
-/* BUG FIX: .media-strip y .media-ph no tenían estilos en el CSS original,
-   haciendo que la tira de fotos bajo Experiencias fuera invisible/sin formato. */
 .media-strip{
   display:grid;grid-template-columns:repeat(2,1fr);gap:1px;
   background:#111;margin-top:1px;
@@ -390,8 +491,7 @@ section{padding:7rem 3rem}
 .prog-card{
   background:var(--black);padding:2.8rem 2.2rem;
   position:relative;overflow:hidden;
-  border-top:3px solid transparent;
-  transition:border-color .3s,transform .3s;
+  border-top:3px solid transparent;transition:border-color .3s,transform .3s;
 }
 .prog-card:hover{transform:translateY(-4px)}
 .prog-card.featured{border-top-color:var(--green);box-shadow:0 -6px 30px rgba(0,255,136,.07)}
@@ -406,8 +506,7 @@ section{padding:7rem 3rem}
 .prog-card:hover .prog-glow{opacity:1}
 .prog-badge{
   font-family:var(--ff-mono);font-size:.5rem;letter-spacing:.15em;
-  text-transform:uppercase;padding:.3rem .7rem;
-  display:inline-block;margin-bottom:1.5rem;
+  text-transform:uppercase;padding:.3rem .7rem;display:inline-block;margin-bottom:1.5rem;
 }
 .b-default{background:#111;color:var(--muted)}
 .b-featured{background:rgba(0,255,136,.1);color:var(--green);border:1px solid rgba(0,255,136,.2)}
@@ -469,11 +568,7 @@ section{padding:7rem 3rem}
 ══════════════════════════════ */
 #academia{background:var(--black);border-top:1px solid #111}
 .academy-inner{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
-/* BUG FIX: .academy-left no tenía estilos, el contenido izquierdo de la
-   academia no tenía ningún layout definido. */
-.academy-left{
-  display:flex;flex-direction:column;
-}
+.academy-left{display:flex;flex-direction:column}
 .year-badge{
   display:inline-flex;align-items:center;gap:.8rem;
   border:1px solid rgba(191,95,255,.35);padding:.5rem 1.2rem;
@@ -504,52 +599,24 @@ section{padding:7rem 3rem}
 
 /* ══════════════════════════════
    TESTIMONIOS / PILOTOS
-   BUG FIX: toda esta sección carecía de estilos en el CSS original.
-   Los elementos existían en el HTML pero eran completamente invisibles
-   o sin formato alguno.
 ══════════════════════════════ */
 #pilotos{background:var(--dark);border-top:1px solid #111}
-.testi-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
-  background:#111;margin-top:4rem;margin-bottom:1px;
-}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#111;margin-top:4rem;margin-bottom:1px}
 .testi-card{
   background:var(--black);padding:2.5rem 2rem;
   position:relative;overflow:hidden;
-  border-top:2px solid transparent;
-  transition:border-color .3s,background .3s;
+  border-top:2px solid transparent;transition:border-color .3s,background .3s;
 }
 .testi-card:hover{background:#060606;border-top-color:var(--green)}
-.testi-prog{
-  font-family:var(--ff-mono);font-size:.5rem;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--green);margin-bottom:1.5rem;
-}
-.testi-q{
-  font-size:.85rem;color:#888;font-weight:300;line-height:1.8;
-  margin-bottom:2rem;font-style:italic;
-}
+.testi-prog{font-family:var(--ff-mono);font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:var(--green);margin-bottom:1.5rem}
+.testi-q{font-size:.85rem;color:#888;font-weight:300;line-height:1.8;margin-bottom:2rem;font-style:italic}
 .testi-q::before{content:'"';font-family:var(--ff-display);font-size:3rem;color:#1a1a1a;line-height:0;vertical-align:-.6rem;margin-right:.3rem}
 .testi-author{display:flex;align-items:center;gap:1rem}
-.testi-av{
-  width:36px;height:36px;border-radius:50%;flex-shrink:0;
-  background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.2);
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--ff-mono);font-size:.55rem;color:var(--green);
-}
+.testi-av{width:36px;height:36px;border-radius:50%;flex-shrink:0;background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.2);display:flex;align-items:center;justify-content:center;font-family:var(--ff-mono);font-size:.55rem;color:var(--green)}
 .testi-name{font-family:var(--ff-display);font-weight:700;font-size:.85rem;letter-spacing:.04em;text-transform:uppercase}
 .testi-role{font-family:var(--ff-mono);font-size:.5rem;color:var(--muted);letter-spacing:.1em;margin-top:.2rem}
-
-/* BUG FIX: .pilots-strip y .pilot-ph no tenían estilos en el CSS original. */
-.pilots-strip{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
-  background:#111;margin-top:1px;
-}
-.pilot-ph{
-  aspect-ratio:3/4;background:var(--dark);
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--ff-mono);font-size:.5rem;color:#1e1e1e;
-  text-align:center;border:1px solid #141414;
-}
+.pilots-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#111;margin-top:1px}
+.pilot-ph{aspect-ratio:3/4;background:var(--dark);display:flex;align-items:center;justify-content:center;font-family:var(--ff-mono);font-size:.5rem;color:#1e1e1e;text-align:center;border:1px solid #141414}
 
 /* ══════════════════════════════
    CTA
@@ -602,8 +669,6 @@ footer{
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeRight{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
-/* BUG FIX: @keyframes logoGlitch estaba duplicado (en <style> inline del HTML
-   y acá). Se eliminó el bloque inline y se deja sólo este. */
 @keyframes logoGlitch{
   0%  {transform:translate(0,0);  color:var(--green)}
   25% {transform:translate(-3px,0);color:var(--violet)}
@@ -615,8 +680,6 @@ footer{
 /* ══════════════════════════════
    RESPONSIVE
 ══════════════════════════════ */
-
-/* Tablet — 1024px */
 @media(max-width:1024px){
   nav{padding:0 2rem}
   section{padding:5rem 2rem}
@@ -630,13 +693,11 @@ footer{
   .testi-grid{grid-template-columns:1fr}
 }
 
-/* Mobile — 768px */
 @media(max-width:768px){
   nav{padding:0 1.5rem}
   .nav-links{display:none;position:fixed;top:56px;left:0;right:0;bottom:0;
     background:rgba(5,5,5,.97);flex-direction:column;align-items:center;
-    justify-content:center;gap:2.5rem;z-index:199;
-  }
+    justify-content:center;gap:2.5rem;z-index:199}
   .nav-links.open{display:flex}
   .nav-links a{font-size:1.4rem;letter-spacing:.15em}
   .nav-cta{display:none}
@@ -644,23 +705,18 @@ footer{
 
   #hero{padding:56px 1.5rem 0;min-height:auto}
   .hero-telemetry-bar{display:none}
-  .hero-grid{
-    grid-template-columns:1fr;padding-top:60px;gap:2rem;
-  }
+  .hero-grid{grid-template-columns:1fr;padding-top:60px;gap:2rem}
   .hero-right{display:none}
   .hero-headline{font-size:clamp(3.8rem,14vw,5.5rem)}
   .hero-body{font-size:.9rem}
 
   .ticker-item{padding:0 1rem;font-size:.5rem}
-
   section{padding:4rem 1.5rem}
 
-  /* Experiencias: 1 columna en móvil */
   .exp-header{grid-template-columns:1fr;gap:1.5rem}
   .exp-circuits{grid-template-columns:1fr}
   .exp-circuit{min-height:400px}
   .exp-circuit-img{flex:0 0 55%}
-
   .media-strip{grid-template-columns:1fr}
 
   .prog-header{grid-template-columns:1fr;gap:1.5rem}
@@ -686,7 +742,6 @@ footer{
   .footer-links{gap:1rem}
 }
 
-/* Small mobile — 480px */
 @media(max-width:480px){
   .hero-headline{font-size:clamp(3.2rem,16vw,4.5rem)}
   .exp-circuits{grid-template-columns:1fr}
@@ -695,4 +750,103 @@ footer{
   .hero-actions{flex-direction:column;align-items:flex-start}
   .btn-primary,.btn-ghost{width:100%;text-align:center;justify-content:center}
   .pilots-strip{grid-template-columns:repeat(2,1fr)}
+}
+
+/* ══════════════════════════════
+   CARRUSEL — Circuitos y Programas (mobile)
+══════════════════════════════ */
+.carousel-track{
+  display:flex !important;flex-direction:row !important;
+  overflow:visible !important;background:transparent !important;
+  gap:0 !important;will-change:transform;cursor:grab;user-select:none;
+}
+.carousel-track:active{cursor:grabbing}
+.carousel-track > *{flex:0 0 100% !important;width:100% !important;background:var(--black) !important;margin-right:1px}
+
+.exp-carousel-dots,
+.prog-carousel-dots{display:none;justify-content:center;gap:.6rem;margin-top:1.5rem}
+
+.carousel-dot{
+  width:7px;height:7px;border-radius:50%;border:none;
+  background:var(--muted2);padding:0;cursor:pointer;
+  transition:background .25s,transform .25s,box-shadow .25s;
+}
+.carousel-dot.active{background:var(--green);transform:scale(1.4);box-shadow:0 0 8px rgba(0,255,136,.55)}
+
+@media(max-width:768px){
+  #experiencias .exp-circuits,
+  #programas .prog-cards{overflow:hidden}
+  .exp-carousel-dots,
+  .prog-carousel-dots{display:flex}
+  .carousel-track .prog-card:hover{transform:none !important}
+}
+
+/* ══════════════════════════════
+   SIMULADOR — Reveal orgánico
+══════════════════════════════ */
+#simulador{background:var(--black);border-top:1px solid #111;padding:7rem 0 0}
+.sim-header{text-align:center;padding:0 3rem;margin-bottom:4rem}
+.sim-reveal-wrap{
+  position:relative;width:100%;overflow:hidden;
+  cursor:none;user-select:none;
+  border-top:1px solid #111;border-bottom:1px solid #111;
+}
+.sim-base-img{
+  display:block;width:100%;height:auto;max-height:80vh;object-fit:cover;
+  filter:brightness(.72) saturate(.5);transition:filter .5s ease;pointer-events:none;
+}
+.sim-reveal-wrap:hover .sim-base-img{filter:brightness(.45) saturate(.35)}
+.sim-lens{
+  position:absolute;inset:0;pointer-events:none;
+  opacity:1;z-index:10;will-change:opacity;
+}
+.sim-lens-inner{
+  position:absolute;inset:0;
+  background-image:url('foto6.png');
+  background-repeat:no-repeat;background-size:100% 100%;
+}
+.sim-overlay-text{
+  position:absolute;bottom:2rem;right:2.5rem;
+  z-index:5;pointer-events:none;transition:opacity .4s;
+}
+.sim-reveal-wrap:hover .sim-overlay-text{opacity:0}
+.sim-hint{
+  font-family:var(--ff-mono);font-size:.58rem;letter-spacing:.2em;
+  text-transform:uppercase;color:rgba(0,255,136,.5);
+  display:flex;align-items:center;gap:.5rem;
+}
+.sim-hint::after{content:'';width:20px;height:1px;background:rgba(0,255,136,.4);display:inline-block}
+
+@media(max-width:768px){
+  #simulador{padding:5rem 0 0}
+  .sim-header{padding:0 1.5rem;margin-bottom:2.5rem}
+  .sim-reveal-wrap{cursor:default}
+  .sim-overlay-text{display:none}
+  .sim-base-img{max-height:55vw}
+
+  /* ── Auto-loop glitch entre foto5 / foto6 (mobile) ──
+     No hay cursor para activar el "lens", así que en mobile
+     las dos fotos se alternan solas en loop con un glitch. */
+  .sim-base-img{filter:brightness(.72) saturate(.5)}
+  .sim-lens{
+    display:block;
+    transition:none;     /* el cambio lo maneja el glitch, no un fade */
+    opacity:0;
+  }
+  .sim-lens.sim-active{opacity:1}
+
+  .sim-reveal-wrap.sim-glitching .sim-base-img,
+  .sim-reveal-wrap.sim-glitching .sim-lens-inner{
+    animation:simGlitchFx .4s steps(3) both;
+  }
+}
+
+@keyframes simGlitchFx{
+  0%  {transform:translate(0,0);                 filter:brightness(.72) saturate(.5);}
+  12% {transform:translate(-3%,1%) scaleX(1.01);  filter:brightness(1.3) saturate(2) hue-rotate(8deg);}
+  28% {transform:translate(2%,-1%);               filter:brightness(.5) contrast(1.4);}
+  44% {transform:translate(-2%,0%);               filter:brightness(1.1) saturate(1.6);}
+  60% {transform:translate(2%,1%);                filter:brightness(.6) contrast(1.2) hue-rotate(-6deg);}
+  78% {transform:translate(-1%,0%);               filter:brightness(1.05);}
+  100%{transform:translate(0,0);                  filter:brightness(.72) saturate(.5);}
 }
