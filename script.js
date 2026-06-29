@@ -32,7 +32,24 @@ document.addEventListener('DOMContentLoaded', () => {
     ring.style.opacity   = '1';
   });
 
-  
+  /* ── HAMBURGER MENU ── */
+  const navToggle = document.getElementById('nav-toggle');
+  const navLinks  = document.getElementById('nav-links');
+
+  if (navToggle && navLinks) {
+    navToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      navToggle.classList.toggle('open', isOpen);
+      navToggle.setAttribute('aria-expanded', isOpen);
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        navToggle.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
 
   /* ── TELEMETRY LIVE VALUES ── */
   const rpmEl   = document.getElementById('tel-rpm');
@@ -59,13 +76,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (morphEl) {
     setInterval(() => {
       morphIdx = (morphIdx + 1) % morphWords.length;
-      morphEl.style.opacity = '0';
+      morphEl.style.opacity   = '0';
       morphEl.style.transform = 'translateY(-8px)';
       morphEl.style.transition = 'opacity .25s ease, transform .25s ease';
       setTimeout(() => {
-        morphEl.textContent = morphWords[morphIdx];
-        morphEl.style.opacity = '1';
-        morphEl.style.transform = 'translateY(0)';
+        morphEl.textContent      = morphWords[morphIdx];
+        morphEl.style.opacity    = '1';
+        morphEl.style.transform  = 'translateY(0)';
       }, 280);
     }, 3200);
   }
@@ -90,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { passive: true });
 
   /* ── NAV ACTIVE LINK ── */
-  const secs = document.querySelectorAll('section[id]');
+  const secs  = document.querySelectorAll('section[id]');
   const links = document.querySelectorAll('.nav-links a');
   const navIo = new IntersectionObserver(entries => {
     entries.forEach(e => {
@@ -117,21 +134,18 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ── PROG CARD MAGNETIC TILT ── */
   document.querySelectorAll('.prog-card').forEach(card => {
     card.addEventListener('mousemove', e => {
-      const r = card.getBoundingClientRect();
-      const cx = r.left + r.width / 2;
+      const r  = card.getBoundingClientRect();
+      const cx = r.left + r.width  / 2;
       const cy = r.top  + r.height / 2;
-      const dx = (e.clientX - cx) / (r.width / 2);
+      const dx = (e.clientX - cx) / (r.width  / 2);
       const dy = (e.clientY - cy) / (r.height / 2);
       card.style.transform = `perspective(600px) rotateY(${dx * 4}deg) rotateX(${-dy * 3}deg) translateY(-4px)`;
     });
     card.addEventListener('mouseleave', () => {
-      card.style.transform = '';
+      card.style.transform  = '';
       card.style.transition = 'transform .5s ease';
     });
   });
-
-  /* ── NUMBER COUNTERS (hero) ── */
-  // Removed stats bar per request — counters kept for potential re-use
 
   /* ── SCROLL PROGRESS BAR ── */
   const bar = document.getElementById('scroll-bar');
@@ -167,7 +181,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const len = finalText.length;
     let frame = 0;
     const totalFrames = Math.ceil(duration / 32);
-
     const interval = setInterval(() => {
       let out = '';
       for (let i = 0; i < len; i++) {
@@ -179,14 +192,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       el.textContent = out;
       frame++;
-      if (frame >= totalFrames) {
-        el.textContent = finalText;
-        clearInterval(interval);
-      }
+      if (frame >= totalFrames) { el.textContent = finalText; clearInterval(interval); }
     }, 32);
   }
 
-  // Trigger scramble when CTA enters view
   const ctaTitle = document.querySelector('.cta-main-text');
   if (ctaTitle) {
     let triggered = false;
@@ -198,5 +207,330 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: .5 });
     ctaIo.observe(ctaTitle);
   }
+
+  /* ══════════════════════════════
+     CARRUSEL GENÉRICO
+  ══════════════════════════════ */
+  function initCarousel(track, dotsContainer) {
+    if (!track) return;
+    const items = Array.from(track.children);
+    let current = 0, startX = 0, isDragging = false, dragOffset = 0;
+
+    if (dotsContainer) {
+      items.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', `Ir al slide ${i + 1}`);
+        dot.addEventListener('click', () => goTo(i));
+        dotsContainer.appendChild(dot);
+      });
+    }
+
+    function updateDots() {
+      if (!dotsContainer) return;
+      dotsContainer.querySelectorAll('.carousel-dot').forEach((d, i) => {
+        d.classList.toggle('active', i === current);
+      });
+    }
+
+    function goTo(index) {
+      current = Math.max(0, Math.min(index, items.length - 1));
+      track.style.transition = 'transform .4s cubic-bezier(.25,.8,.25,1)';
+      track.style.transform  = `translateX(calc(-${current * 100}% - ${current}px))`;
+      updateDots();
+    }
+
+    track.addEventListener('touchstart', e => {
+      startX = e.touches[0].clientX; isDragging = true;
+      track.style.transition = 'none';
+    }, { passive: true });
+    track.addEventListener('touchmove', e => {
+      if (!isDragging) return;
+      dragOffset = e.touches[0].clientX - startX;
+      track.style.transform = `translateX(calc(-${current * 100}% - ${current}px + ${dragOffset}px))`;
+    }, { passive: true });
+    track.addEventListener('touchend', () => {
+      isDragging = false;
+      if      (dragOffset < -50) goTo(current + 1);
+      else if (dragOffset >  50) goTo(current - 1);
+      else                       goTo(current);
+      dragOffset = 0;
+    });
+
+    track.addEventListener('mousedown', e => {
+      startX = e.clientX; isDragging = true;
+      track.style.transition = 'none'; track.style.cursor = 'grabbing';
+    });
+    window.addEventListener('mousemove', e => {
+      if (!isDragging) return;
+      dragOffset = e.clientX - startX;
+      track.style.transform = `translateX(calc(-${current * 100}% - ${current}px + ${dragOffset}px))`;
+    });
+    window.addEventListener('mouseup', () => {
+      if (!isDragging) return;
+      isDragging = false; track.style.cursor = '';
+      if      (dragOffset < -50) goTo(current + 1);
+      else if (dragOffset >  50) goTo(current - 1);
+      else                       goTo(current);
+      dragOffset = 0;
+    });
+  }
+
+  function setupCarousels() {
+    const isMobile  = window.innerWidth <= 768;
+    const expTrack  = document.querySelector('.exp-circuits');
+    const expDots   = document.querySelector('.exp-carousel-dots');
+    const progTrack = document.querySelector('.prog-cards');
+    const progDots  = document.querySelector('.prog-carousel-dots');
+
+    if (isMobile) {
+      expTrack  && expTrack.classList.add('carousel-track');
+      progTrack && progTrack.classList.add('carousel-track');
+      initCarousel(expTrack,  expDots);
+      initCarousel(progTrack, progDots);
+    } else {
+      expTrack  && expTrack.classList.remove('carousel-track');
+      progTrack && progTrack.classList.remove('carousel-track');
+      [expTrack, progTrack].forEach(t => { if (t) { t.style.transform = ''; t.style.transition = ''; } });
+      [expDots,  progDots ].forEach(d => { if (d) d.innerHTML = ''; });
+    }
+  }
+
+  setupCarousels();
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(setupCarousels, 200);
+  });
+
+  /* ══════════════════════════════
+     SIMULADOR — GOTA DE AGUA CON RASTRO (desktop, hover)
+     En vez de pintar un solo blob, usamos un canvas que se
+     redibuja cuadro a cuadro sin borrarse del todo — así el
+     líquido deja una estela que se desvanece sola.
+  ══════════════════════════════ */
+  (function () {
+    const wrap = document.getElementById('sim-wrap');
+    if (!wrap) return;
+    const lens = document.getElementById('sim-lens');
+    if (!lens) return;
+    const lensInner = document.getElementById('sim-lens-inner');
+    if (lensInner) lensInner.style.display = 'none'; // reemplazado por el canvas
+
+    const N           = 9;       // pocos puntos + curva suave = lóbulos líquidos
+    const BASE_R       = 30;      // tamaño de la mancha
+    const NOISE_A       = 13;     // variación del borde
+    const SPEED        = 0.00045; // respiración del blob
+    const LERP_FOLLOW  = 0.16;    // qué tan ajustado sigue al cursor
+    const FADE_ALPHA   = 0.055;   // cuánto se desvanece el rastro por cuadro (más alto = se va más rápido)
+    const LINGER_FRAMES = 90;     // cuadros que sigue corriendo el loop tras salir el mouse, para que termine de desvanecer
+
+    const seeds = Array.from({ length: N }, () => Math.random() * 1000);
+    let targetX = 0, targetY = 0, cx = 0, cy = 0;
+    let rafId = null, active = false, lingerCounter = 0;
+    let W = 0, H = 0;
+
+    /* Canvas que dibuja el blob + mantiene el rastro */
+    const canvas = document.createElement('canvas');
+    canvas.style.position = 'absolute';
+    canvas.style.inset = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.pointerEvents = 'none';
+    lens.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+
+    /* Imagen que se revela dentro del blob */
+    const dropImg = new Image();
+    dropImg.src = 'foto6.png';
+
+    function resizeCanvas() {
+      W = wrap.offsetWidth;
+      H = wrap.offsetHeight;
+      canvas.width  = W;
+      canvas.height = H;
+    }
+    resizeCanvas();
+    let resizeT;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeT);
+      resizeT = setTimeout(resizeCanvas, 200);
+    });
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    function dropNoise(t, seed) {
+      const pulse = Math.sin(t * 0.9) * 0.08;
+      return (
+        Math.sin(t * 0.7  + seed)       * 0.45 +
+        Math.sin(t * 1.8  + seed * 1.4) * 0.28 +
+        Math.sin(t * 3.2  + seed * 2.2) * 0.14 +
+        Math.sin(t * 5.5  + seed * 3.1) * 0.05 +
+        pulse
+      );
+    }
+
+    function buildBlobPoints(x, y, t) {
+      const pts = [];
+      for (let i = 0; i < N; i++) {
+        const baseAngle  = (i / N) * Math.PI * 2 - Math.PI / 2;
+        const angleJitter = dropNoise(t * 0.3, seeds[i] + 500) * 0.08;
+        const angle = baseAngle + angleJitter;
+        const r  = BASE_R + dropNoise(t, seeds[i]) * NOISE_A;
+        pts.push([x + Math.cos(angle) * r, y + Math.sin(angle) * r]);
+      }
+      return pts;
+    }
+
+    // Catmull-Rom → Bézier: convierte los puntos en una curva suave (look líquido, no poligonal)
+    function catmullRomPath(pts) {
+      const n = pts.length;
+      let d = `M ${pts[0][0].toFixed(2)} ${pts[0][1].toFixed(2)} `;
+      for (let i = 0; i < n; i++) {
+        const p0 = pts[(i - 1 + n) % n];
+        const p1 = pts[i];
+        const p2 = pts[(i + 1) % n];
+        const p3 = pts[(i + 2) % n];
+        const cp1x = p1[0] + (p2[0] - p0[0]) / 6;
+        const cp1y = p1[1] + (p2[1] - p0[1]) / 6;
+        const cp2x = p2[0] - (p3[0] - p1[0]) / 6;
+        const cp2y = p2[1] - (p3[1] - p1[1]) / 6;
+        d += `C ${cp1x.toFixed(2)} ${cp1y.toFixed(2)}, ${cp2x.toFixed(2)} ${cp2y.toFixed(2)}, ${p2[0].toFixed(2)} ${p2[1].toFixed(2)} `;
+      }
+      return d + 'Z';
+    }
+
+    function render(ts) {
+      const t = ts * SPEED;
+      cx = lerp(cx, targetX, LERP_FOLLOW);
+      cy = lerp(cy, targetY, LERP_FOLLOW);
+
+      // 1) Desvanecemos un poco lo que ya estaba dibujado → efecto de rastro líquido
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.fillStyle = `rgba(0,0,0,${FADE_ALPHA})`;
+      ctx.fillRect(0, 0, W, H);
+
+      // 2) Si el mouse sigue activo, dibujamos el blob nuevo encima
+      if (active) {
+        const pts = buildBlobPoints(cx, cy, t);
+        const path = new Path2D(catmullRomPath(pts));
+        ctx.save();
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.clip(path);
+        if (dropImg.complete) ctx.drawImage(dropImg, 0, 0, W, H);
+        ctx.restore();
+      } else if (lingerCounter > 0) {
+        lingerCounter--;
+      }
+
+      if (active || lingerCounter > 0) {
+        rafId = requestAnimationFrame(render);
+      } else {
+        rafId = null;
+        ctx.clearRect(0, 0, W, H); // ya se desvaneció todo, limpiamos del todo
+      }
+    }
+
+    function startLoop() {
+      if (rafId === null) rafId = requestAnimationFrame(render);
+    }
+
+    wrap.addEventListener('mouseenter', e => {
+      const rect = wrap.getBoundingClientRect();
+      targetX = cx = e.clientX - rect.left;
+      targetY = cy = e.clientY - rect.top;
+      active = true;
+      startLoop();
+    });
+    wrap.addEventListener('mousemove', e => {
+      const rect = wrap.getBoundingClientRect();
+      targetX = e.clientX - rect.left;
+      targetY = e.clientY - rect.top;
+    });
+    wrap.addEventListener('mouseleave', () => {
+      active = false;
+      lingerCounter = LINGER_FRAMES; // sigue corriendo un rato para que el rastro se desvanezca solo
+      startLoop();
+    });
+  })();
+
+  /* ══════════════════════════════
+     SIMULADOR — LOOP GLITCH AUTOMÁTICO (mobile)
+     Alterna foto5.png / foto6.png solas, con glitch,
+     ya que en mobile no hay cursor para "revelar" la lente.
+  ══════════════════════════════ */
+  (function () {
+    const wrap = document.getElementById('sim-wrap');
+    const lens = document.getElementById('sim-lens');
+    if (!wrap || !lens) return;
+
+    const MOBILE_BREAKPOINT = 768;
+    const HOLD_TIME   = 2600; // tiempo que se mantiene cada foto antes del próximo glitch
+    const GLITCH_TIME = 400;  // duración de la animación simGlitchFx (debe matchear el CSS)
+
+    let showingAlt = false; // false = foto5 visible, true = foto6 visible
+    let loopTimer  = null;
+    let active     = false;
+
+    function triggerGlitch() {
+      // Disparamos el glitch visual...
+      wrap.classList.add('sim-glitching');
+
+      // ...y a mitad de camino del glitch, swapeamos qué imagen queda arriba
+      setTimeout(() => {
+        showingAlt = !showingAlt;
+        lens.classList.toggle('sim-active', showingAlt);
+      }, GLITCH_TIME * 0.45);
+
+      // al terminar la animación, quitamos la clase para poder re-disparar después
+      setTimeout(() => {
+        wrap.classList.remove('sim-glitching');
+      }, GLITCH_TIME + 30);
+    }
+
+    function startLoop() {
+      if (active) return;
+      active = true;
+      loopTimer = setInterval(triggerGlitch, HOLD_TIME);
+    }
+
+    function stopLoop() {
+      active = false;
+      if (loopTimer) clearInterval(loopTimer);
+      loopTimer = null;
+      wrap.classList.remove('sim-glitching');
+      lens.classList.remove('sim-active');
+      showingAlt = false;
+    }
+
+    function syncWithViewport() {
+      if (window.innerWidth <= MOBILE_BREAKPOINT) {
+        startLoop();
+      } else {
+        stopLoop();
+      }
+    }
+
+    syncWithViewport();
+    let resizeT;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeT);
+      resizeT = setTimeout(syncWithViewport, 200);
+    });
+
+    // Pausamos el loop si la sección no está visible (ahorro de trabajo / batería)
+    const sectionIo = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (window.innerWidth > MOBILE_BREAKPOINT) return;
+        if (entry.isIntersecting) {
+          startLoop();
+        } else {
+          if (loopTimer) clearInterval(loopTimer);
+          active = false;
+        }
+      });
+    }, { threshold: .15 });
+    sectionIo.observe(wrap);
+  })();
 
 });
