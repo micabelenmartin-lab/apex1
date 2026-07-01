@@ -71,8 +71,7 @@
 
       <h1 class="hero-headline">
         <span class="hl-white">CORRÉ</span><br>
-        <span class="hl-outline">PARA</span><br>
-        <span class="hl-green">GANAR</span>
+        <span class="hero-line2"><span class="hl-outline">PARA</span> <span class="hl-green">GANAR</span></span>
       </h1>
 
       <p class="hero-body">
@@ -156,8 +155,7 @@
   <div class="exp-header exp-header-centered">
     <div class="eyebrow reveal" style="justify-content:center">Experiencias</div>
 
-    <!-- ── HEADING ANIMADO ── -->
-    <div class="exp-headline-wrap reveal d1" aria-label="Elige tu circuito">
+    <div class="exp-headline-wrap reveal d1" id="exp-headline-wrap" aria-label="Elige tu circuito">
       <div class="exp-type-line" id="exp-headline-line">
         <span class="exp-letter" data-delay="80">E</span>
         <span class="exp-letter" data-delay="120">L</span>
@@ -165,8 +163,8 @@
         <span class="exp-letter" data-delay="200">G</span>
         <span class="exp-letter" data-delay="240">E</span>
         <span class="exp-letter exp-gap" aria-hidden="true"> </span>
-        <span class="exp-letter" data-delay="300">T</span>
-        <span class="exp-letter" data-delay="340">U</span>
+        <span class="exp-letter exp-tu" data-delay="300">T</span>
+        <span class="exp-letter exp-tu" data-delay="340">U</span>
         <span class="exp-letter exp-gap" aria-hidden="true"> </span>
         <span class="exp-letter" data-delay="400">C</span>
         <span class="exp-letter" data-delay="440">I</span>
@@ -178,8 +176,6 @@
         <span class="exp-letter" data-delay="680">O</span>
       </div>
     </div>
-    <!-- ── FIN HEADING ANIMADO ── -->
-
   </div>
 
   <div class="exp-circuits reveal d1">
@@ -188,7 +184,7 @@
       <div class="exp-circuit-body">
         <div class="exp-num">01</div>
         <div class="exp-name">Trazada Perfecta</div>
-        <div class="exp-desc">Dominá la geometría de cada curva con telemetría en tiempo real. Aprendé el punto de entrada, el ápex y la salida como un piloto de fábrica.</div>
+        <div class="exp-desc">Dominá la geometría de cada curva con telemetría en tiempo real.</div>
       </div>
     </div>
     <div class="exp-circuit">
@@ -209,31 +205,37 @@
     </div>
   </div>
 
-  <!-- DOTS carrusel circuitos -->
   <div class="exp-carousel-dots" aria-hidden="true"></div>
 
   <div class="media-strip reveal d2">
-    <div class="media-ph">[ FOTO / VIDEO — SESIÓN ONBOARD ]</div>
-    <div class="media-ph">[ FOTO / VIDEO — COCKPIT EXPERIENCE ]</div>
+    <div class="media-ph"><img src="foto7.png" alt="Sesión Onboard" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+    <div class="media-ph"><img src="foto8.png" alt="Cockpit Experience" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
   </div>
 </section>
 
 <!-- ═══════ PROGRAMAS ═══════ -->
 <section id="programas">
   <div class="prog-header">
-    <div>
-      <div class="eyebrow reveal">Programas</div>
-      <h2 class="sec-title reveal d1">ELIGE TU<br>NIVEL</h2>
-    </div>
+    <div class="eyebrow reveal">Programas</div>
+    <h2 class="sec-title reveal d1">NUESTROS PROGRAMAS DE PILOTOS</h2>
     <p class="sec-sub reveal d2">Cada programa está diseñado por ex-pilotos de categorías internacionales. No hay atajos. Hay método.</p>
   </div>
 
   <div class="prog-cards">
 
     <!-- ENTRY -->
-    <div class="prog-card reveal">
+    <div class="prog-card entry-card reveal">
       <div class="prog-glow"></div>
-      <span class="prog-badge b-default">NIVEL 01</span>
+      <div class="prog-header-row">
+        <span class="prog-badge b-entry">NIVEL 01</span>
+        <div class="prog-level-bars">
+          <span class="bar bar-on bar-white"></span>
+          <span class="bar bar-on bar-white"></span>
+          <span class="bar bar-off bar-white"></span>
+          <span class="bar bar-off bar-white"></span>
+          <span class="bar bar-off bar-white"></span>
+        </div>
+      </div>
       <div class="prog-name">ENTRY</div>
       <p class="prog-tagline">Para pilotos que comienzan a tomarse en serio el sim</p>
       <hr class="prog-divider">
@@ -245,13 +247,22 @@
       </ul>
       <div class="prog-price">$290</div>
       <div class="prog-period">/ programa</div>
-      <a href="#cta" class="prog-cta">Comenzar →</a>
+      <a href="#cta" class="prog-cta cta-entry">Comenzar →</a>
     </div>
 
     <!-- PRO -->
     <div class="prog-card featured reveal d1">
       <div class="prog-glow"></div>
-      <span class="prog-badge b-featured">NIVEL 02 · MÁS POPULAR</span>
+      <div class="prog-header-row">
+        <span class="prog-badge b-featured">NIVEL 02 · MÁS POPULAR</span>
+        <div class="prog-level-bars">
+          <span class="bar bar-on bar-green"></span>
+          <span class="bar bar-on bar-green"></span>
+          <span class="bar bar-on bar-green"></span>
+          <span class="bar bar-on bar-green"></span>
+          <span class="bar bar-off bar-green"></span>
+        </div>
+      </div>
       <div class="prog-name">PRO</div>
       <p class="prog-tagline">El camino real de quienes apuntan a competir</p>
       <hr class="prog-divider">
@@ -269,7 +280,16 @@
     <!-- ELITE -->
     <div class="prog-card elite-card reveal d2">
       <div class="prog-glow"></div>
-      <span class="prog-badge b-elite">NIVEL 03 · ELITE</span>
+      <div class="prog-header-row">
+        <span class="prog-badge b-elite">NIVEL 03 · ELITE</span>
+        <div class="prog-level-bars">
+          <span class="bar bar-on bar-violet"></span>
+          <span class="bar bar-on bar-violet"></span>
+          <span class="bar bar-on bar-violet"></span>
+          <span class="bar bar-on bar-violet"></span>
+          <span class="bar bar-on bar-violet"></span>
+        </div>
+      </div>
       <div class="prog-name">ELITE</div>
       <p class="prog-tagline">Entrenamiento sin límites. Solo para los más comprometidos</p>
       <hr class="prog-divider">
@@ -286,7 +306,6 @@
 
   </div>
 
-  <!-- DOTS carrusel programas -->
   <div class="prog-carousel-dots" aria-hidden="true"></div>
 
 </section>
@@ -296,25 +315,52 @@
 <section id="simulador">
   <div class="sim-header">
     <div class="eyebrow reveal" style="justify-content:center">El Equipo</div>
-    <h2 class="sec-title reveal d1" style="text-align:center">EL SIMULADOR<br><span class="t-green">POR DENTRO</span></h2>
+
+    <div class="exp-headline-wrap reveal d1" id="sim-headline-wrap" aria-label="El simulador por dentro">
+      <div class="exp-type-line" id="sim-headline-line">
+        <span class="exp-letter" data-delay="80">E</span>
+        <span class="exp-letter" data-delay="120">L</span>
+        <span class="exp-letter exp-gap" aria-hidden="true"> </span>
+        <span class="exp-letter" data-delay="180">S</span>
+        <span class="exp-letter" data-delay="220">I</span>
+        <span class="exp-letter" data-delay="260">M</span>
+        <span class="exp-letter" data-delay="300">U</span>
+        <span class="exp-letter" data-delay="340">L</span>
+        <span class="exp-letter" data-delay="380">A</span>
+        <span class="exp-letter" data-delay="420">D</span>
+        <span class="exp-letter" data-delay="460">O</span>
+        <span class="exp-letter" data-delay="500">R</span>
+        <span class="exp-letter exp-gap" aria-hidden="true"> </span>
+        <span class="exp-letter exp-tu" data-delay="560">P</span>
+        <span class="exp-letter exp-tu" data-delay="600">O</span>
+        <span class="exp-letter exp-tu" data-delay="640">R</span>
+        <span class="exp-letter exp-gap" aria-hidden="true"> </span>
+        <span class="exp-letter" data-delay="700">D</span>
+        <span class="exp-letter" data-delay="740">E</span>
+        <span class="exp-letter" data-delay="780">N</span>
+        <span class="exp-letter" data-delay="820">T</span>
+        <span class="exp-letter" data-delay="860">R</span>
+        <span class="exp-letter" data-delay="900">O</span>
+      </div>
+    </div>
   </div>
 
-  <div class="sim-reveal-wrap reveal d2" id="sim-wrap">
-    <img src="foto5.png" alt="Simulador APEX" class="sim-base-img" draggable="false">
-    <div class="sim-lens" id="sim-lens" aria-hidden="true">
-      <div class="sim-lens-inner" id="sim-lens-inner"></div>
+  <div class="sim-reveal-wrap reveal d2" id="sim-wrap" role="button" tabindex="0" aria-label="Alternar vista del simulador">
+    <div class="sim-img-stack">
+      <img src="foto5.png" alt="Simulador APEX — vista exterior" class="sim-base-img" id="sim-img-base" draggable="false">
+      <img src="foto6.png" alt="Simulador APEX — vista interior" class="sim-alt-img" id="sim-img-alt" draggable="false">
     </div>
     <div class="sim-overlay-text" aria-hidden="true">
-      <span class="sim-hint">// PASÁ EL CURSOR</span>
+      <span class="sim-hint">// HACÉ CLICK</span>
     </div>
   </div>
 </section>
 
 <!-- ═══════ TECNOLOGIA ═══════ -->
 <section id="tecnologia">
-  <div class="tech-header">
-    <div class="eyebrow reveal" style="justify-content:center">Tecnología</div>
-    <h2 class="sec-title reveal d1" style="text-align:center">HARDWARE DE<br>NIVEL MUNDIAL</h2>
+  <div class="prog-header">
+    <div class="eyebrow reveal">Tecnología</div>
+    <h2 class="sec-title reveal d1">HARDWARE DE NIVEL MUNDIAL</h2>
     <p class="sec-sub reveal d2">Los mismos sistemas que usan los equipos de fábrica. Sin compromisos.</p>
   </div>
 
@@ -354,10 +400,16 @@
   </div>
 
   <div class="tech-media reveal d3">
-    <div class="tech-ph-main">[ FOTO PRINCIPAL — SALA DE SIMULADORES ]</div>
+    <div class="tech-ph-main">
+      <img src="foto10.png" alt="Sala de simuladores APEX" style="width:100%;height:100%;object-fit:cover;display:block;">
+    </div>
     <div class="tech-ph-col">
-      <div class="tech-ph-sm">[ DETALLE<br>VOLANTE ]</div>
-      <div class="tech-ph-sm">[ VR<br>HEADSET ]</div>
+      <div class="tech-ph-sm">
+        <img src="foto11.png" alt="Detalle volante" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="tech-ph-sm">
+        <img src="foto12.png" alt="VR Headset" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
     </div>
   </div>
 </section>
@@ -368,8 +420,8 @@
     <div class="academy-left">
       <div class="year-badge reveal"><span class="yr">2027</span> PRÓXIMAMENTE</div>
       <div class="eyebrow reveal">Academia de Talentos</div>
-      <h2 class="sec-title reveal d1">DEL SIM<br>A LA PISTA<br><span class="t-green">REAL</span></h2>
-      <p class="sec-sub reveal d2">
+      <h2 class="sec-title reveal d1">DEL SIM A LA PISTA<br><span class="t-green">REAL</span></h2>
+      <p class="sec-sub reveal d2" style="font-size:1.05rem;color:#888;">
         En 2026, la FIA validó las competencias virtuales. Los equipos de Fórmula buscan talentos en los simuladores. APEX cierra convenios con equipos de <span class="t-violet">Fórmula 3</span> para 2027 — tus vueltas acá son tu prueba de ingreso.
       </p>
     </div>
@@ -445,6 +497,35 @@
 
 <script src="script.js"></script>
 
+<!-- ═══════ SCRIPT: SIMULADOR — TOGGLE CLICK ═══════ -->
+<script>
+(function(){
+  var wrap    = document.getElementById('sim-wrap');
+  var imgBase = document.getElementById('sim-img-base');
+  var imgAlt  = document.getElementById('sim-img-alt');
+  var hint    = wrap ? wrap.querySelector('.sim-hint') : null;
+  if(!wrap || !imgBase || !imgAlt) return;
+
+  var showingAlt = false;
+
+  function toggle(){
+    showingAlt = !showingAlt;
+    if(showingAlt){
+      imgAlt.classList.add('sim-visible');
+      imgBase.classList.add('sim-hidden');
+    } else {
+      imgAlt.classList.remove('sim-visible');
+      imgBase.classList.remove('sim-hidden');
+    }
+  }
+
+  wrap.addEventListener('click', toggle);
+  wrap.addEventListener('keydown', function(e){
+    if(e.key === 'Enter' || e.key === ' '){{ e.preventDefault(); toggle(); }}
+  });
+})();
+</script>
+
 <!-- ═══════ SCRIPT: LOADER ═══════ -->
 <script>
 (function(){
@@ -499,7 +580,7 @@
     entries.forEach(function(entry){
       if(entry.isIntersecting && !triggered){
         triggered = true;
-        document.querySelectorAll('.exp-letter[data-delay]').forEach(function(el){
+        document.querySelectorAll('#exp-headline-line .exp-letter[data-delay]').forEach(function(el){
           var delay = parseInt(el.dataset.delay) || 0;
           setTimeout(function(){ el.classList.add('exp-letter-animate'); }, delay);
         });
@@ -507,7 +588,48 @@
     });
   }, { threshold: 0.2 });
 
-  var wrap = document.querySelector('.exp-headline-wrap');
+  var wrap = document.getElementById('exp-headline-wrap');
+  if(wrap) observer.observe(wrap);
+})();
+</script>
+
+<!-- ═══════ SCRIPT: HEADING ANIMADO SIMULADOR ═══════ -->
+<script>
+(function(){
+  function fitSimHeadline(){
+    var line = document.getElementById('sim-headline-line');
+    if(!line) return;
+    var header = document.querySelector('.sim-header');
+    var hStyle = header ? window.getComputedStyle(header) : null;
+    var padL = hStyle ? parseFloat(hStyle.paddingLeft) : 48;
+    var padR = hStyle ? parseFloat(hStyle.paddingRight) : 48;
+    var w = (header ? header.offsetWidth : line.parentElement.offsetWidth) - padL - padR;
+    var fs = 10;
+    line.style.fontSize = fs + 'px';
+    while(line.scrollWidth <= w && fs < 800){
+      fs += 2;
+      line.style.fontSize = fs + 'px';
+    }
+    line.style.fontSize = (fs - 2) + 'px';
+  }
+
+  fitSimHeadline();
+  window.addEventListener('resize', fitSimHeadline);
+
+  var triggered = false;
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting && !triggered){
+        triggered = true;
+        document.querySelectorAll('#sim-headline-line .exp-letter[data-delay]').forEach(function(el){
+          var delay = parseInt(el.dataset.delay) || 0;
+          setTimeout(function(){ el.classList.add('exp-letter-animate'); }, delay);
+        });
+      }
+    });
+  }, { threshold: 0.2 });
+
+  var wrap = document.getElementById('sim-headline-wrap');
   if(wrap) observer.observe(wrap);
 })();
 </script>
